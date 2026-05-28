@@ -121,7 +121,7 @@ export default function Reviews() {
   const inView = useInView(ref, { once: true, margin: '-60px' });
 
   return (
-    <section id="avis" aria-labelledby="reviews-title" className="py-16 sm:py-24 px-4 sm:px-6 bg-[#FDFAF4]" ref={ref}>
+    <section id="avis" aria-labelledby="reviews-title" className="py-16 sm:py-24 px-4 sm:px-6 bg-[#F5EDD6]" ref={ref}>
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <motion.div
@@ -131,7 +131,7 @@ export default function Reviews() {
           className="text-center mb-14"
         >
           <div className="inline-flex items-center gap-2.5 mb-5">
-            <span className="block w-6 h-px bg-[#C41E1E]" aria-hidden="true" />
+            <span className="block w-6 h-px bg-[#4A7040]" aria-hidden="true" />
             <p
               className="text-[#C41E1E] text-xs font-semibold uppercase tracking-[0.2em]"
               style={{ fontFamily: 'var(--font-body)' }}

@@ -70,7 +70,14 @@ export default function Hero() {
       {/* Content */}
       <div className="relative z-10 flex-1 flex flex-col justify-end max-w-6xl mx-auto w-full px-5 sm:px-8 lg:px-10 pt-28 pb-10 sm:pb-14">
 
-        <motion.div {...fadeUp(0)} className="flex items-center gap-3 mb-6">
+        {/* Italian tricolor accent */}
+        <motion.div {...fadeUp(0)} className="flex gap-1 mb-5" aria-hidden="true">
+          <span className="block w-8 h-[3px] bg-[#4A9040] rounded-full" />
+          <span className="block w-8 h-[3px] bg-white/45 rounded-full" />
+          <span className="block w-8 h-[3px] bg-[#C41E1E] rounded-full" />
+        </motion.div>
+
+        <motion.div {...fadeUp(0.06)} className="flex items-center gap-3 mb-6">
           <span className="block w-7 h-px bg-[#C8960C]" aria-hidden="true" />
           <span
             className="text-[#C8960C] text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.25em]"
@@ -81,7 +88,7 @@ export default function Hero() {
         </motion.div>
 
         <motion.h1
-          {...fadeUp(0.08)}
+          {...fadeUp(0.14)}
           className="text-[clamp(3.5rem,10vw,8.5rem)] font-semibold leading-[0.88] tracking-[-0.025em] text-white mb-6"
           style={{ fontFamily: 'var(--font-heading)' }}
         >

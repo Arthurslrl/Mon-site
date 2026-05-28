@@ -43,7 +43,7 @@ export default function Gallery() {
   const [lightbox, setLightbox] = useState<null | typeof photos[0]>(null);
 
   return (
-    <section id="galerie" aria-labelledby="gallery-title" className="py-16 sm:py-24 px-4 sm:px-6 bg-[#F0EAE0]" ref={ref}>
+    <section id="galerie" aria-labelledby="gallery-title" className="py-16 sm:py-24 px-4 sm:px-6 bg-[#E8DFC9]" ref={ref}>
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -52,7 +52,7 @@ export default function Gallery() {
           className="text-center mb-12"
         >
           <div className="inline-flex items-center gap-2.5 mb-5">
-            <span className="block w-6 h-px bg-[#C41E1E]" aria-hidden="true" />
+            <span className="block w-6 h-px bg-[#4A7040]" aria-hidden="true" />
             <p
               className="text-[#C41E1E] text-xs font-semibold uppercase tracking-[0.2em]"
               style={{ fontFamily: 'var(--font-body)' }}

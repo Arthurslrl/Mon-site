@@ -5,8 +5,10 @@ import { useRef } from 'react';
 
 const values = [
   {
+    iconColor: '#4A7040',
+    iconBg: 'bg-[#4A7040]/10',
     icon: (
-      <svg viewBox="0 0 24 24" className="w-6 h-6 fill-[#C41E1E]" aria-hidden="true">
+      <svg viewBox="0 0 24 24" className="w-6 h-6 fill-[#4A7040]" aria-hidden="true">
         <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
       </svg>
     ),
@@ -14,6 +16,8 @@ const values = [
     desc: 'Tomates, herbes et légumes sourcés auprès des producteurs de l\'Hérault, chaque matin au marché de Valras.',
   },
   {
+    iconColor: '#C41E1E',
+    iconBg: 'bg-[#C41E1E]/8',
     icon: (
       <svg viewBox="0 0 24 24" className="w-6 h-6 fill-[#C41E1E]" aria-hidden="true">
         <path d="M17.66 11.2c-.23-.3-.51-.56-.77-.82-.67-.6-1.43-1.03-2.07-1.66C13.33 7.26 13 4.85 13.95 3c-.95.23-1.78.75-2.49 1.32-2.45 2.01-3.48 5.21-2.87 8.21.08.46.22.9.49 1.29.26.4.62.77 1.06.94.76.3 1.56-.06 2.15-.51.61-.46 1.03-1.13 1.36-1.83.33-.7.51-1.5.8-2.22.29-.73.82-1.43 1.52-1.65.14-.05.29-.08.44-.08.17 0 .35.04.5.12.32.16.5.5.5.86 0 .03 0 .06-.01.09.39 1.09.47 2.27.14 3.39-.35 1.15-1.08 2.13-2.02 2.83-.93.7-2.03 1.11-3.15 1.22-2.5.24-4.92-.72-6.36-2.72C4.49 13.7 4 12.06 4 10.39c0-2.13.72-4.22 1.97-5.93C6.86 3.25 8 2.24 9.3 1.51c-.69 1.07-1.04 2.31-.98 3.55.03.62.15 1.24.35 1.83.46 1.32 1.34 2.46 2.47 3.23.48.33.99.59 1.53.77.19.06.39.11.59.14z"/>
@@ -23,8 +27,10 @@ const values = [
     desc: 'Notre four en pierre réfractaire chauffe à 450°C pour une cuisson parfaite en 90 secondes — croûte croustillante garantie.',
   },
   {
+    iconColor: '#C8960C',
+    iconBg: 'bg-[#C8960C]/10',
     icon: (
-      <svg viewBox="0 0 24 24" className="w-6 h-6 fill-[#C41E1E]" aria-hidden="true">
+      <svg viewBox="0 0 24 24" className="w-6 h-6 fill-[#C8960C]" aria-hidden="true">
         <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/>
       </svg>
     ),
@@ -38,7 +44,7 @@ export default function About() {
   const inView = useInView(ref, { once: true, margin: '-80px' });
 
   return (
-    <section id="about" className="py-16 sm:py-24 px-4 sm:px-6 bg-[#F5F0E6]">
+    <section id="about" className="py-16 sm:py-24 px-4 sm:px-6 bg-[#EDE5CC]">
       <div className="max-w-6xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center" ref={ref}>
           {/* Text */}
@@ -48,13 +54,14 @@ export default function About() {
             transition={{ duration: 0.7, ease: [0.0, 0.0, 0.2, 1] }}
           >
             <div className="inline-flex items-center gap-2.5 mb-5">
-              <span className="block w-6 h-px bg-[#C41E1E]" aria-hidden="true" />
+              <span className="block w-6 h-px bg-[#4A7040]" aria-hidden="true" />
               <p
                 className="text-[#C41E1E] text-xs font-semibold uppercase tracking-[0.2em]"
                 style={{ fontFamily: 'var(--font-body)' }}
               >
                 Notre Histoire
               </p>
+              <span className="block w-6 h-px bg-[#C41E1E]" aria-hidden="true" />
             </div>
             <h2
               className="text-4xl sm:text-5xl font-semibold text-[#1C0A00] leading-[1.05] tracking-[-0.01em] mb-7"
@@ -142,7 +149,7 @@ export default function About() {
                 transition={{ duration: 0.5, delay: 0.28 + i * 0.1, ease: [0.0, 0.0, 0.2, 1] }}
                 className="flex gap-4 bg-white rounded-2xl p-5 border border-[#C41E1E]/8 hover:border-[#C41E1E]/20 hover:shadow-sm transition-all duration-200"
               >
-                <div className="w-11 h-11 rounded-xl bg-[#C41E1E]/8 flex items-center justify-center shrink-0">
+                <div className={`w-11 h-11 rounded-xl ${v.iconBg} flex items-center justify-center shrink-0`}>
                   {v.icon}
                 </div>
                 <div>
