@@ -4,9 +4,9 @@ import { motion } from 'framer-motion';
 
 function fadeUp(delay: number) {
   return {
-    initial: { opacity: 0, y: 30 },
+    initial: { opacity: 0, y: 28 },
     animate: { opacity: 1, y: 0 },
-    transition: { delay, duration: 0.6, ease: [0.0, 0.0, 0.2, 1] as const },
+    transition: { delay, duration: 0.7, ease: [0.0, 0.0, 0.2, 1] as const },
   } as const;
 }
 
@@ -14,101 +14,135 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#FEF2F2]"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#FEF9F5]"
     >
       {/* Background gradient blobs */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        <div className="absolute top-[-10%] right-[-10%] w-[600px] h-[600px] rounded-full bg-[#DC2626]/10 blur-3xl" />
-        <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] rounded-full bg-[#CA8A04]/10 blur-3xl" />
+        <div className="absolute top-[-15%] right-[-8%] w-[700px] h-[700px] rounded-full bg-[#C41E1E]/7 blur-3xl" />
+        <div className="absolute bottom-[-15%] left-[-8%] w-[600px] h-[600px] rounded-full bg-[#B8860B]/7 blur-3xl" />
+        <div className="absolute top-[40%] left-[30%] w-[400px] h-[400px] rounded-full bg-[#C41E1E]/4 blur-3xl" />
       </div>
 
       {/* Decorative pizza wheel */}
       <motion.div
-        className="absolute right-[4%] top-1/2 -translate-y-1/2 opacity-[0.07] hidden lg:block"
+        className="absolute right-[3%] top-1/2 -translate-y-1/2 opacity-[0.055] hidden xl:block"
         animate={{ rotate: 360 }}
-        transition={{ duration: 60, repeat: Infinity, ease: 'linear' }}
+        transition={{ duration: 80, repeat: Infinity, ease: 'linear' }}
         aria-hidden="true"
       >
-        <svg viewBox="0 0 300 300" className="w-[520px] h-[520px]">
-          <circle cx="150" cy="150" r="140" fill="#DC2626" />
-          <circle cx="150" cy="150" r="110" fill="#CA8A04" />
-          <circle cx="150" cy="150" r="80" fill="#F87171" />
-          <line x1="150" y1="10" x2="150" y2="290" stroke="#FEF2F2" strokeWidth="3" />
-          <line x1="10" y1="150" x2="290" y2="150" stroke="#FEF2F2" strokeWidth="3" />
-          <line x1="47" y1="47" x2="253" y2="253" stroke="#FEF2F2" strokeWidth="3" />
-          <line x1="253" y1="47" x2="47" y2="253" stroke="#FEF2F2" strokeWidth="3" />
-          <circle cx="110" cy="105" r="14" fill="#450A0A" opacity="0.5" />
-          <circle cx="185" cy="120" r="10" fill="#450A0A" opacity="0.5" />
-          <circle cx="130" cy="185" r="12" fill="#450A0A" opacity="0.5" />
-          <circle cx="192" cy="178" r="9" fill="#450A0A" opacity="0.5" />
-          <circle cx="152" cy="145" r="8" fill="#450A0A" opacity="0.5" />
+        <svg viewBox="0 0 300 300" className="w-[560px] h-[560px]">
+          <circle cx="150" cy="150" r="144" fill="#C41E1E" />
+          <circle cx="150" cy="150" r="112" fill="#B8860B" />
+          <circle cx="150" cy="150" r="80" fill="#E85C5C" />
+          <line x1="150" y1="6" x2="150" y2="294" stroke="#FEF9F5" strokeWidth="2.5" />
+          <line x1="6" y1="150" x2="294" y2="150" stroke="#FEF9F5" strokeWidth="2.5" />
+          <line x1="48" y1="48" x2="252" y2="252" stroke="#FEF9F5" strokeWidth="2.5" />
+          <line x1="252" y1="48" x2="48" y2="252" stroke="#FEF9F5" strokeWidth="2.5" />
+          <circle cx="110" cy="108" r="13" fill="#1C0A00" opacity="0.45" />
+          <circle cx="187" cy="122" r="10" fill="#1C0A00" opacity="0.45" />
+          <circle cx="128" cy="188" r="11" fill="#1C0A00" opacity="0.45" />
+          <circle cx="190" cy="176" r="8" fill="#1C0A00" opacity="0.45" />
+          <circle cx="154" cy="146" r="7" fill="#1C0A00" opacity="0.45" />
         </svg>
       </motion.div>
 
-      {/* Floating dots */}
+      {/* Floating ornaments */}
       <motion.div
-        className="absolute top-[22%] left-[8%] w-3 h-3 rounded-full bg-[#CA8A04] hidden md:block"
-        animate={{ y: [-8, 8, -8] }}
-        transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
+        className="absolute top-[20%] left-[7%] w-2.5 h-2.5 rounded-full bg-[#B8860B] hidden md:block"
+        animate={{ y: [-10, 10, -10] }}
+        transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
         aria-hidden="true"
       />
       <motion.div
-        className="absolute top-[62%] left-[12%] w-5 h-5 rounded-full bg-[#DC2626]/25 hidden md:block"
-        animate={{ y: [8, -8, 8] }}
-        transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+        className="absolute top-[64%] left-[10%] w-4 h-4 rounded-full bg-[#C41E1E]/20 hidden md:block"
+        animate={{ y: [10, -10, 10] }}
+        transition={{ duration: 6.5, repeat: Infinity, ease: 'easeInOut' }}
+        aria-hidden="true"
+      />
+      <motion.div
+        className="absolute top-[35%] left-[20%] w-1.5 h-1.5 rounded-full bg-[#B8860B]/60 hidden lg:block"
+        animate={{ y: [-6, 6, -6] }}
+        transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
         aria-hidden="true"
       />
 
       {/* Content */}
-      <div className="relative z-10 max-w-6xl mx-auto px-6 pt-28 pb-20 text-center">
-        <motion.p {...fadeUp(0)} className="inline-flex items-center gap-2 bg-[#DC2626]/10 text-[#DC2626] text-sm font-semibold px-4 py-2 rounded-full mb-6 border border-[#DC2626]/20">
-          <span className="w-2 h-2 rounded-full bg-[#DC2626] inline-block" />
-          Valras-Plage · Depuis 1985
-        </motion.p>
+      <div className="relative z-10 max-w-5xl mx-auto px-6 pt-32 pb-24 text-center">
+
+        <motion.div {...fadeUp(0)} className="inline-flex items-center gap-2.5 mb-8">
+          <span className="block w-6 h-px bg-[#C41E1E]" aria-hidden="true" />
+          <span
+            className="text-[#C41E1E] text-xs font-semibold uppercase tracking-[0.2em]"
+            style={{ fontFamily: 'var(--font-body)' }}
+          >
+            Valras-Plage · Depuis 1985
+          </span>
+          <span className="block w-6 h-px bg-[#C41E1E]" aria-hidden="true" />
+        </motion.div>
 
         <motion.h1
-          {...fadeUp(0.12)}
-          className="text-6xl md:text-8xl lg:text-9xl font-bold text-[#450A0A] leading-none tracking-tight mb-4"
+          {...fadeUp(0.1)}
+          className="text-[clamp(4rem,12vw,9rem)] font-semibold text-[#1C0A00] leading-[0.92] tracking-[-0.02em] mb-6"
           style={{ fontFamily: 'var(--font-heading)' }}
         >
           Pizzeria
           <br />
-          <span className="text-[#DC2626]">Loulou</span>
+          <span className="text-[#C41E1E] italic">Loulou</span>
         </motion.h1>
 
-        <motion.p {...fadeUp(0.24)} className="text-lg md:text-xl text-[#78350F] max-w-xl mx-auto mt-6 mb-10 leading-relaxed">
+        <motion.p
+          {...fadeUp(0.22)}
+          className="text-lg md:text-xl text-[#7C4A1E]/80 max-w-lg mx-auto leading-relaxed mb-10"
+          style={{ fontFamily: 'var(--font-body)' }}
+        >
           L&apos;authenticité italienne au bord de la Méditerranée.
-          Pâtes maison, four à bois, ingrédients du terroir.
+          Pâtes maison, four à bois, ingrédients du terroir héraultais.
         </motion.p>
 
-        <motion.div {...fadeUp(0.36)} className="flex flex-col sm:flex-row gap-4 justify-center">
+        <motion.div {...fadeUp(0.32)} className="flex flex-col sm:flex-row gap-3.5 justify-center">
           <a
             href="#menu"
-            className="bg-[#DC2626] hover:bg-[#B91C1C] text-white px-8 py-4 rounded-full text-base font-semibold transition-colors duration-200 cursor-pointer shadow-lg shadow-[#DC2626]/25"
+            className="bg-[#C41E1E] hover:bg-[#A01818] text-white px-8 py-4 rounded-full text-sm font-semibold tracking-wide transition-colors duration-200 cursor-pointer shadow-lg shadow-[#C41E1E]/25 min-h-[52px] flex items-center justify-center"
+            style={{ fontFamily: 'var(--font-body)' }}
           >
             Découvrir la carte
           </a>
           <a
-            href="#contact"
-            className="border-2 border-[#DC2626] text-[#DC2626] hover:bg-[#DC2626] hover:text-white px-8 py-4 rounded-full text-base font-semibold transition-all duration-200 cursor-pointer"
+            href="tel:+33467013267"
+            className="border border-[#C41E1E]/40 text-[#C41E1E] hover:bg-[#C41E1E]/8 px-8 py-4 rounded-full text-sm font-semibold tracking-wide transition-all duration-200 cursor-pointer min-h-[52px] flex items-center justify-center gap-2"
+            style={{ fontFamily: 'var(--font-body)' }}
           >
-            Nous trouver
+            <svg viewBox="0 0 24 24" className="w-4 h-4 fill-current shrink-0" aria-hidden="true">
+              <path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/>
+            </svg>
+            04 67 01 32 67
           </a>
         </motion.div>
 
         {/* Stats */}
-        <motion.div {...fadeUp(0.48)} className="flex flex-wrap justify-center gap-8 mt-16 pt-10 border-t border-[#DC2626]/15">
+        <motion.div
+          {...fadeUp(0.44)}
+          className="flex flex-wrap justify-center gap-10 mt-20 pt-10 border-t border-[#C41E1E]/12"
+        >
           {[
             { value: '40+', label: "ans d'expérience" },
-            { value: '30+', label: 'pizzas au menu' },
-            { value: '100%', label: 'produits frais' },
-            { value: 'Four', label: 'à bois artisanal' },
+            { value: '30+', label: 'pizzas artisanales' },
+            { value: '4.5★', label: '382 avis Google' },
+            { value: '450°', label: 'four à bois' },
           ].map((stat) => (
             <div key={stat.label} className="text-center">
-              <p className="text-3xl font-bold text-[#DC2626]" style={{ fontFamily: 'var(--font-heading)' }}>
+              <p
+                className="text-3xl md:text-4xl font-semibold text-[#C41E1E]"
+                style={{ fontFamily: 'var(--font-heading)' }}
+              >
                 {stat.value}
               </p>
-              <p className="text-sm text-[#78350F] mt-1">{stat.label}</p>
+              <p
+                className="text-xs text-[#7C4A1E]/70 mt-1.5 uppercase tracking-[0.1em]"
+                style={{ fontFamily: 'var(--font-body)' }}
+              >
+                {stat.label}
+              </p>
             </div>
           ))}
         </motion.div>
@@ -116,13 +150,18 @@ export default function Hero() {
 
       {/* Scroll indicator */}
       <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-[#78350F]/60"
-        animate={{ y: [0, 6, 0] }}
-        transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 text-[#7C4A1E]/50"
+        animate={{ y: [0, 7, 0] }}
+        transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
         aria-hidden="true"
       >
-        <span className="text-xs tracking-widest uppercase">Défiler</span>
-        <svg viewBox="0 0 24 24" className="w-5 h-5 fill-current">
+        <span
+          className="text-[10px] tracking-[0.25em] uppercase"
+          style={{ fontFamily: 'var(--font-body)' }}
+        >
+          Défiler
+        </span>
+        <svg viewBox="0 0 24 24" className="w-4 h-4 fill-current">
           <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
         </svg>
       </motion.div>

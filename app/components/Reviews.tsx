@@ -130,10 +130,19 @@ export default function Reviews() {
           transition={{ duration: 0.6 }}
           className="text-center mb-14"
         >
-          <p className="text-[#DC2626] font-semibold text-sm uppercase tracking-widest mb-3">Avis clients</p>
+          <div className="inline-flex items-center gap-2.5 mb-5">
+            <span className="block w-6 h-px bg-[#C41E1E]" aria-hidden="true" />
+            <p
+              className="text-[#C41E1E] text-xs font-semibold uppercase tracking-[0.2em]"
+              style={{ fontFamily: 'var(--font-body)' }}
+            >
+              Avis clients
+            </p>
+            <span className="block w-6 h-px bg-[#C41E1E]" aria-hidden="true" />
+          </div>
           <h2
             id="reviews-title"
-            className="text-4xl md:text-5xl font-bold text-[#450A0A]"
+            className="text-4xl md:text-5xl font-semibold text-[#1C0A00] tracking-[-0.01em]"
             style={{ fontFamily: 'var(--font-heading)' }}
           >
             Ce que disent nos clients
@@ -148,11 +157,11 @@ export default function Reviews() {
             ].map((r) => (
               <div
                 key={r.platform}
-                className="flex items-center gap-3 bg-[#FEF2F2] rounded-2xl px-5 py-3 border border-[#DC2626]/10"
+                className="flex items-center gap-3 bg-white rounded-2xl px-5 py-3 border border-[#C41E1E]/10"
               >
                 <div>
-                  <p className="text-xs text-[#78350F] font-medium">{r.platform}</p>
-                  <p className="text-lg font-bold text-[#450A0A]" style={{ fontFamily: 'var(--font-heading)' }}>
+                  <p className="text-xs text-[#7C4A1E] font-medium" style={{ fontFamily: 'var(--font-body)' }}>{r.platform}</p>
+                  <p className="text-lg font-semibold text-[#1C0A00]" style={{ fontFamily: 'var(--font-heading)' }}>
                     {r.score}
                   </p>
                 </div>
@@ -170,7 +179,7 @@ export default function Reviews() {
               initial={{ opacity: 0, y: 30 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: i * 0.08, ease: [0.0, 0.0, 0.2, 1] }}
-              className="bg-[#FEF2F2] rounded-2xl p-6 border border-[#DC2626]/8 hover:border-[#DC2626]/20 hover:shadow-md hover:shadow-[#DC2626]/5 transition-all duration-200"
+              className="bg-white rounded-2xl p-6 border border-[#C41E1E]/8 hover:border-[#C41E1E]/20 hover:shadow-md hover:shadow-[#C41E1E]/5 transition-all duration-200"
             >
               {/* Header */}
               <div className="flex items-start justify-between mb-4">

@@ -51,15 +51,27 @@ export default function Gallery() {
           transition={{ duration: 0.6 }}
           className="text-center mb-12"
         >
-          <p className="text-[#DC2626] font-semibold text-sm uppercase tracking-widest mb-3">Galerie</p>
+          <div className="inline-flex items-center gap-2.5 mb-5">
+            <span className="block w-6 h-px bg-[#C41E1E]" aria-hidden="true" />
+            <p
+              className="text-[#C41E1E] text-xs font-semibold uppercase tracking-[0.2em]"
+              style={{ fontFamily: 'var(--font-body)' }}
+            >
+              Galerie
+            </p>
+            <span className="block w-6 h-px bg-[#C41E1E]" aria-hidden="true" />
+          </div>
           <h2
             id="gallery-title"
-            className="text-4xl md:text-5xl font-bold text-[#450A0A]"
+            className="text-4xl md:text-5xl font-semibold text-[#1C0A00] tracking-[-0.01em]"
             style={{ fontFamily: 'var(--font-heading)' }}
           >
             Dans notre cuisine
           </h2>
-          <p className="mt-3 text-[#78350F] max-w-md mx-auto">
+          <p
+            className="mt-4 text-[#7C4A1E]/70 max-w-md mx-auto text-[15px] leading-relaxed"
+            style={{ fontFamily: 'var(--font-body)' }}
+          >
             Du four à bois à votre table — chaque pizza est un moment de pure authenticité.
           </p>
         </motion.div>
