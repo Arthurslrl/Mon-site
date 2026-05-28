@@ -6,6 +6,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 const links = [
   { href: '#menu', label: 'La Carte' },
   { href: '#about', label: 'Notre Histoire' },
+  { href: '#galerie', label: 'Galerie' },
+  { href: '#avis', label: 'Avis' },
   { href: '#contact', label: 'Contact' },
 ];
 
@@ -56,7 +58,7 @@ export default function Navbar() {
 
         {/* CTA */}
         <a
-          href="tel:+33467000000"
+          href="tel:+33467013267"
           className="hidden md:flex items-center gap-2 bg-[#CA8A04] hover:bg-[#A16207] text-white px-5 py-2.5 rounded-full text-sm font-semibold transition-colors duration-200 cursor-pointer shadow-sm"
         >
           <svg viewBox="0 0 24 24" className="w-4 h-4 fill-current" aria-hidden="true">
@@ -103,7 +105,7 @@ export default function Navbar() {
                 </a>
               ))}
               <a
-                href="tel:+33467000000"
+                href="tel:+33467013267"
                 className="mt-2 block bg-[#CA8A04] hover:bg-[#A16207] text-white text-center py-3 rounded-full font-semibold transition-colors duration-200 cursor-pointer"
               >
                 Réserver une table

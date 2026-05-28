@@ -25,7 +25,7 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="py-24 px-6 bg-white" ref={ref}>
+    <section id="contact" className="py-24 px-6 bg-[#FEF3F3]" ref={ref}>
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-14">
           <p className="text-[#DC2626] font-semibold text-sm uppercase tracking-widest mb-3">Contact & Horaires</p>
@@ -75,8 +75,8 @@ export default function Contact() {
               </div>
               <div>
                 <h3 className="font-semibold text-[#450A0A] mb-1">Téléphone</h3>
-                <a href="tel:+33467000000" className="text-[#DC2626] font-medium hover:underline cursor-pointer">
-                  04 67 00 00 00
+                <a href="tel:+33467013267" className="text-[#DC2626] font-medium hover:underline cursor-pointer">
+                  04 67 01 32 67
                 </a>
                 <p className="text-sm text-[#78350F] mt-1">Réservations conseillées le week-end</p>
               </div>

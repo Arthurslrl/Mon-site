@@ -54,7 +54,7 @@ export default function Menu() {
   const current = categories.find((c) => c.id === active)!;
 
   return (
-    <section id="menu" className="py-24 px-6 bg-white">
+    <section id="menu" className="py-24 px-6 bg-[#FFFBEB]">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-14">

@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     template: "%s | Pizzeria Loulou Valras-Plage",
   },
   description:
-    "Pizzeria artisanale à Valras-Plage depuis 1985. Pâtes maison, four à bois, ingrédients frais du terroir héraultais. Note 4.5/5 sur 382 avis. Réservation au 04 67 XX XX XX.",
+    "Pizzeria artisanale à Valras-Plage depuis 1985. Pâtes maison, four à bois, ingrédients frais du terroir héraultais. Note 4.5/5 sur 382 avis. Réservation au 04 67 01 32 67.",
   keywords: [
     "pizzeria Valras-Plage",
     "pizza Valras",
@@ -91,7 +91,7 @@ const jsonLd = {
   description:
     "Pizzeria artisanale à Valras-Plage depuis 1985. Four à bois, pâtes maison, ingrédients frais du terroir.",
   url: siteUrl,
-  telephone: "+33467000000",
+  telephone: "+33467013267",
   servesCuisine: ["Italian", "Pizza"],
   priceRange: "€€",
   currenciesAccepted: "EUR",

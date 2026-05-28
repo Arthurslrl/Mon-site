@@ -39,7 +39,7 @@ export default function About() {
   const inView = useInView(ref, { once: true, margin: '-80px' });
 
   return (
-    <section id="about" className="py-24 px-6 bg-[#FEF2F2]">
+    <section id="about" className="py-24 px-6 bg-[#FFF5F5]">
       <div className="max-w-6xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Text */}

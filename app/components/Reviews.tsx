@@ -121,7 +121,7 @@ export default function Reviews() {
   const inView = useInView(ref, { once: true, margin: '-60px' });
 
   return (
-    <section id="avis" aria-labelledby="reviews-title" className="py-24 px-6 bg-white" ref={ref}>
+    <section id="avis" aria-labelledby="reviews-title" className="py-24 px-6 bg-[#FFFCF0]" ref={ref}>
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <motion.div
