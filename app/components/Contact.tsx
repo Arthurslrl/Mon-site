@@ -4,6 +4,11 @@ import { useState } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 
+const timeSlots = {
+  midi: ['11h30', '12h00', '12h30', '13h00', '13h30'],
+  soir: ['18h30', '19h00', '19h30', '20h00', '20h30', '21h00', '21h30', '22h00'],
+};
+
 const hours = [
   { day: 'Lundi', time: 'Fermé', closed: true },
   { day: 'Mar – Jeu', time: '11h30–14h · 18h30–22h', closed: false },
@@ -14,52 +19,61 @@ const hours = [
 
 export default function Contact() {
   const [sent, setSent] = useState(false);
-  const [form, setForm] = useState({ name: '', email: '', message: '' });
+  const [form, setForm] = useState({
+    name: '',
+    phone: '',
+    email: '',
+    date: '',
+    time: '',
+    guests: '2',
+    message: '',
+  });
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-80px' });
+
+  const today = new Date().toISOString().split('T')[0];
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setSent(true);
   };
 
+  const inputClass =
+    'w-full px-4 py-3 bg-[#FEF9F5] border border-[#C41E1E]/15 rounded-xl text-[#1C0A00] placeholder-[#7C4A1E]/35 focus:outline-none focus:border-[#C41E1E]/45 focus:ring-2 focus:ring-[#C41E1E]/10 transition-all duration-200 text-sm min-h-[48px]';
+  const labelClass = 'block text-[11px] font-semibold text-[#1C0A00]/60 mb-2 uppercase tracking-[0.1em]';
+
   return (
     <section id="contact" className="py-16 sm:py-24 px-4 sm:px-6 bg-[#FEF3F3]" ref={ref}>
       <div className="max-w-6xl mx-auto">
-        <div className="text-center mb-14">
+        <div className="text-center mb-12 sm:mb-16">
           <div className="inline-flex items-center gap-2.5 mb-5">
             <span className="block w-6 h-px bg-[#C41E1E]" aria-hidden="true" />
-            <p
-              className="text-[#C41E1E] text-xs font-semibold uppercase tracking-[0.2em]"
-              style={{ fontFamily: 'var(--font-body)' }}
-            >
-              Contact & Horaires
+            <p className="text-[#C41E1E] text-xs font-semibold uppercase tracking-[0.2em]" style={{ fontFamily: 'var(--font-body)' }}>
+              Réservation & Horaires
             </p>
             <span className="block w-6 h-px bg-[#C41E1E]" aria-hidden="true" />
           </div>
           <h2
             className="text-4xl sm:text-5xl md:text-6xl font-semibold text-[#1C0A00] tracking-[-0.01em]"
             style={{ fontFamily: 'var(--font-heading)' }}
+            id="reservation"
           >
-            On vous attend
+            Réservez votre table
           </h2>
-          <p
-            className="mt-4 text-[#7C4A1E]/70 text-[15px]"
-            style={{ fontFamily: 'var(--font-body)' }}
-          >
-            Réservations conseillées le week-end — venez profiter de la terrasse face à la mer.
+          <p className="mt-4 text-[#7C4A1E]/70 text-[15px]" style={{ fontFamily: 'var(--font-body)' }}>
+            Indispensable le week-end — nous vous confirmons par SMS ou téléphone.
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-10 lg:gap-12">
-          {/* Info */}
+        <div className="grid lg:grid-cols-2 gap-10 lg:gap-14">
+          {/* Left: info */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, ease: [0.0, 0.0, 0.2, 1] }}
-            className="space-y-7"
+            className="space-y-6"
           >
-            {/* Adresse */}
+            {/* Address */}
             <div className="flex gap-4">
               <div className="w-11 h-11 rounded-xl bg-[#C41E1E]/8 flex items-center justify-center shrink-0 mt-0.5">
                 <svg viewBox="0 0 24 24" className="w-5 h-5 fill-[#C41E1E]" aria-hidden="true">
@@ -67,16 +81,8 @@ export default function Contact() {
                 </svg>
               </div>
               <div>
-                <h3
-                  className="font-semibold text-[#1C0A00] mb-1 text-[15px]"
-                  style={{ fontFamily: 'var(--font-heading)' }}
-                >
-                  Adresse
-                </h3>
-                <p
-                  className="text-[#7C4A1E]/80 text-sm leading-relaxed"
-                  style={{ fontFamily: 'var(--font-body)' }}
-                >
+                <h3 className="font-semibold text-[#1C0A00] mb-1 text-[15px]" style={{ fontFamily: 'var(--font-heading)' }}>Adresse</h3>
+                <p className="text-[#7C4A1E]/80 text-sm leading-relaxed" style={{ fontFamily: 'var(--font-body)' }}>
                   35 Avenue Charles Cauquil<br />34350 Valras-Plage
                 </p>
                 <a
@@ -86,7 +92,7 @@ export default function Contact() {
                   className="text-[#C41E1E] text-xs font-semibold tracking-wide hover:underline mt-1.5 inline-flex items-center gap-1 cursor-pointer"
                   style={{ fontFamily: 'var(--font-body)' }}
                 >
-                  Voir sur Google Maps
+                  Voir sur la carte
                   <svg viewBox="0 0 24 24" className="w-3 h-3 fill-current" aria-hidden="true">
                     <path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/>
                   </svg>
@@ -94,7 +100,7 @@ export default function Contact() {
               </div>
             </div>
 
-            {/* Téléphone */}
+            {/* Phone */}
             <div className="flex gap-4">
               <div className="w-11 h-11 rounded-xl bg-[#C41E1E]/8 flex items-center justify-center shrink-0 mt-0.5">
                 <svg viewBox="0 0 24 24" className="w-5 h-5 fill-[#C41E1E]" aria-hidden="true">
@@ -102,29 +108,17 @@ export default function Contact() {
                 </svg>
               </div>
               <div>
-                <h3
-                  className="font-semibold text-[#1C0A00] mb-1 text-[15px]"
-                  style={{ fontFamily: 'var(--font-heading)' }}
-                >
-                  Téléphone
-                </h3>
-                <a
-                  href="tel:+33467013267"
-                  className="text-[#C41E1E] font-semibold text-base hover:underline cursor-pointer"
-                  style={{ fontFamily: 'var(--font-heading)' }}
-                >
+                <h3 className="font-semibold text-[#1C0A00] mb-1 text-[15px]" style={{ fontFamily: 'var(--font-heading)' }}>Téléphone</h3>
+                <a href="tel:+33467013267" className="text-[#C41E1E] font-semibold text-lg hover:underline cursor-pointer" style={{ fontFamily: 'var(--font-heading)' }}>
                   04 67 01 32 67
                 </a>
-                <p
-                  className="text-xs text-[#7C4A1E]/60 mt-1"
-                  style={{ fontFamily: 'var(--font-body)' }}
-                >
-                  Réservations conseillées le week-end
+                <p className="text-xs text-[#7C4A1E]/60 mt-1" style={{ fontFamily: 'var(--font-body)' }}>
+                  Réservations directes · Lun–Dim
                 </p>
               </div>
             </div>
 
-            {/* Horaires */}
+            {/* Hours */}
             <div className="flex gap-4">
               <div className="w-11 h-11 rounded-xl bg-[#C41E1E]/8 flex items-center justify-center shrink-0 mt-0.5">
                 <svg viewBox="0 0 24 24" className="w-5 h-5 fill-[#C41E1E]" aria-hidden="true">
@@ -132,19 +126,12 @@ export default function Contact() {
                 </svg>
               </div>
               <div className="flex-1">
-                <h3
-                  className="font-semibold text-[#1C0A00] mb-3 text-[15px]"
-                  style={{ fontFamily: 'var(--font-heading)' }}
-                >
-                  Horaires d&apos;ouverture
-                </h3>
+                <h3 className="font-semibold text-[#1C0A00] mb-3 text-[15px]" style={{ fontFamily: 'var(--font-heading)' }}>Horaires</h3>
                 <ul className="space-y-2" style={{ fontFamily: 'var(--font-body)' }}>
                   {hours.map((h) => (
-                    <li key={h.day} className="flex justify-between gap-4 text-sm">
-                      <span className={`font-medium ${h.closed ? 'text-[#7C4A1E]/50' : 'text-[#1C0A00]'}`}>
-                        {h.day}
-                      </span>
-                      <span className={h.closed ? 'text-[#C41E1E] font-semibold' : 'text-[#7C4A1E]/75'}>
+                    <li key={h.day} className="flex justify-between items-center gap-4 text-sm">
+                      <span className={`font-medium ${h.closed ? 'text-[#7C4A1E]/40' : 'text-[#1C0A00]'}`}>{h.day}</span>
+                      <span className={h.closed ? 'text-[#C41E1E] font-semibold text-xs' : 'text-[#7C4A1E]/70 text-xs text-right'}>
                         {h.time}
                       </span>
                     </li>
@@ -152,96 +139,170 @@ export default function Contact() {
                 </ul>
               </div>
             </div>
+
+            {/* Tip card */}
+            <div className="bg-[#C41E1E]/6 border border-[#C41E1E]/15 rounded-2xl p-5">
+              <p className="text-sm text-[#1C0A00] font-semibold mb-1" style={{ fontFamily: 'var(--font-heading)' }}>
+                Conseil : réservez tôt en été
+              </p>
+              <p className="text-xs text-[#7C4A1E]/75 leading-relaxed" style={{ fontFamily: 'var(--font-body)' }}>
+                En juillet–août, les tables se remplissent vite. Nous recommandons de réserver 2–3 jours à l&apos;avance pour être sûr d&apos;avoir une place en terrasse.
+              </p>
+            </div>
           </motion.div>
 
-          {/* Form */}
+          {/* Right: reservation form */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.15, ease: [0.0, 0.0, 0.2, 1] }}
           >
-            <div className="bg-white rounded-2xl p-8 border border-[#C41E1E]/8 shadow-sm">
-              <h3
-                className="text-2xl font-semibold text-[#1C0A00] mb-6 tracking-[-0.01em]"
-                style={{ fontFamily: 'var(--font-heading)' }}
-              >
-                Envoyer un message
+            <div className="bg-white rounded-2xl p-6 sm:p-8 border border-[#C41E1E]/8 shadow-sm">
+              <h3 className="text-2xl font-semibold text-[#1C0A00] mb-6 tracking-[-0.01em]" style={{ fontFamily: 'var(--font-heading)' }}>
+                Demande de réservation
               </h3>
 
               {sent ? (
                 <motion.div
                   initial={{ opacity: 0, scale: 0.96 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  className="text-center py-12"
+                  className="text-center py-14"
                 >
                   <div className="w-14 h-14 bg-[#C41E1E]/8 rounded-full flex items-center justify-center mx-auto mb-4">
                     <svg viewBox="0 0 24 24" className="w-7 h-7 fill-[#C41E1E]" aria-hidden="true">
                       <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
                     </svg>
                   </div>
-                  <p
-                    className="text-[#1C0A00] font-semibold text-lg"
-                    style={{ fontFamily: 'var(--font-heading)' }}
-                  >
-                    Message envoyé !
+                  <p className="text-[#1C0A00] font-semibold text-xl mb-2" style={{ fontFamily: 'var(--font-heading)' }}>
+                    Demande envoyée !
                   </p>
-                  <p
-                    className="text-[#7C4A1E]/70 text-sm mt-2"
-                    style={{ fontFamily: 'var(--font-body)' }}
-                  >
-                    Nous vous répondrons dans les plus brefs délais.
+                  <p className="text-[#7C4A1E]/70 text-sm max-w-xs mx-auto leading-relaxed" style={{ fontFamily: 'var(--font-body)' }}>
+                    Nous vous confirmons votre réservation par SMS ou téléphone sous 24h.
+                  </p>
+                  <p className="mt-4 text-xs text-[#7C4A1E]/50" style={{ fontFamily: 'var(--font-body)' }}>
+                    En cas d&apos;urgence : <a href="tel:+33467013267" className="text-[#C41E1E] font-medium hover:underline">04 67 01 32 67</a>
                   </p>
                 </motion.div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4" noValidate style={{ fontFamily: 'var(--font-body)' }}>
-                  <div>
-                    <label htmlFor="name" className="block text-xs font-semibold text-[#1C0A00]/70 mb-2 uppercase tracking-[0.1em]">
-                      Nom complet
-                    </label>
-                    <input
-                      id="name"
-                      type="text"
-                      required
-                      value={form.name}
-                      onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
-                      placeholder="Marie Dupont"
-                      className="w-full px-4 py-3 bg-[#FEF9F5] border border-[#C41E1E]/15 rounded-xl text-[#1C0A00] placeholder-[#7C4A1E]/35 focus:outline-none focus:border-[#C41E1E]/50 focus:ring-2 focus:ring-[#C41E1E]/12 transition-all duration-200 text-sm"
-                    />
+                  {/* Date + Time */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label htmlFor="date" className={labelClass}>Date</label>
+                      <input
+                        id="date"
+                        type="date"
+                        required
+                        min={today}
+                        value={form.date}
+                        onChange={(e) => setForm((f) => ({ ...f, date: e.target.value }))}
+                        className={inputClass}
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="time" className={labelClass}>Heure</label>
+                      <select
+                        id="time"
+                        required
+                        value={form.time}
+                        onChange={(e) => setForm((f) => ({ ...f, time: e.target.value }))}
+                        className={inputClass}
+                      >
+                        <option value="">Choisir</option>
+                        <optgroup label="Midi">
+                          {timeSlots.midi.map((t) => <option key={t} value={t}>{t}</option>)}
+                        </optgroup>
+                        <optgroup label="Soir">
+                          {timeSlots.soir.map((t) => <option key={t} value={t}>{t}</option>)}
+                        </optgroup>
+                      </select>
+                    </div>
                   </div>
+
+                  {/* Guests */}
                   <div>
-                    <label htmlFor="email" className="block text-xs font-semibold text-[#1C0A00]/70 mb-2 uppercase tracking-[0.1em]">
-                      Adresse e-mail
-                    </label>
+                    <label htmlFor="guests" className={labelClass}>Nombre de couverts</label>
+                    <div className="grid grid-cols-5 sm:grid-cols-7 gap-2">
+                      {['1', '2', '3', '4', '5', '6', '7+'].map((n) => (
+                        <button
+                          key={n}
+                          type="button"
+                          onClick={() => setForm((f) => ({ ...f, guests: n }))}
+                          className={`py-2.5 rounded-xl text-sm font-semibold transition-all duration-150 cursor-pointer min-h-[44px] border ${
+                            form.guests === n
+                              ? 'bg-[#C41E1E] text-white border-[#C41E1E] shadow-md shadow-[#C41E1E]/20'
+                              : 'bg-[#FEF9F5] text-[#1C0A00]/60 border-[#C41E1E]/15 hover:border-[#C41E1E]/40'
+                          }`}
+                        >
+                          {n}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Name + Phone */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label htmlFor="name" className={labelClass}>Nom complet</label>
+                      <input
+                        id="name"
+                        type="text"
+                        required
+                        value={form.name}
+                        onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
+                        placeholder="Marie Dupont"
+                        className={inputClass}
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="phone" className={labelClass}>Téléphone *</label>
+                      <input
+                        id="phone"
+                        type="tel"
+                        required
+                        value={form.phone}
+                        onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))}
+                        placeholder="06 XX XX XX XX"
+                        className={inputClass}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Email */}
+                  <div>
+                    <label htmlFor="email" className={labelClass}>E-mail <span className="text-[#7C4A1E]/40 normal-case">(optionnel)</span></label>
                     <input
                       id="email"
                       type="email"
-                      required
                       value={form.email}
                       onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
                       placeholder="marie@exemple.fr"
-                      className="w-full px-4 py-3 bg-[#FEF9F5] border border-[#C41E1E]/15 rounded-xl text-[#1C0A00] placeholder-[#7C4A1E]/35 focus:outline-none focus:border-[#C41E1E]/50 focus:ring-2 focus:ring-[#C41E1E]/12 transition-all duration-200 text-sm"
+                      className={inputClass}
                     />
                   </div>
+
+                  {/* Message */}
                   <div>
-                    <label htmlFor="message" className="block text-xs font-semibold text-[#1C0A00]/70 mb-2 uppercase tracking-[0.1em]">
-                      Message
-                    </label>
+                    <label htmlFor="message" className={labelClass}>Demandes spéciales <span className="text-[#7C4A1E]/40 normal-case">(optionnel)</span></label>
                     <textarea
                       id="message"
-                      required
-                      rows={4}
+                      rows={3}
                       value={form.message}
                       onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))}
-                      placeholder="Réservation pour 4 personnes samedi soir..."
-                      className="w-full px-4 py-3 bg-[#FEF9F5] border border-[#C41E1E]/15 rounded-xl text-[#1C0A00] placeholder-[#7C4A1E]/35 focus:outline-none focus:border-[#C41E1E]/50 focus:ring-2 focus:ring-[#C41E1E]/12 transition-all duration-200 resize-none text-sm"
+                      placeholder="Allergie, chaise haute, anniversaire, terrasse..."
+                      className={`${inputClass} min-h-[90px] resize-none`}
                     />
                   </div>
+
                   <button
                     type="submit"
-                    className="w-full bg-[#C41E1E] hover:bg-[#A01818] text-white py-3.5 rounded-xl font-semibold tracking-wide transition-colors duration-200 cursor-pointer shadow-md shadow-[#C41E1E]/15 mt-1 min-h-[52px] text-sm"
+                    className="w-full bg-[#C41E1E] hover:bg-[#A01818] text-white py-4 rounded-xl font-semibold tracking-wide transition-colors duration-200 cursor-pointer shadow-md shadow-[#C41E1E]/15 text-sm min-h-[52px]"
                   >
-                    Envoyer le message
+                    Envoyer ma demande de réservation
                   </button>
+                  <p className="text-center text-xs text-[#7C4A1E]/45 -mt-1">
+                    Confirmation par SMS ou téléphone sous 24h
+                  </p>
                 </form>
               )}
             </div>

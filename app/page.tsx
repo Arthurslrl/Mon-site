@@ -5,6 +5,7 @@ import About from "./components/About";
 import Gallery from "./components/Gallery";
 import Reviews from "./components/Reviews";
 import Contact from "./components/Contact";
+import Map from "./components/Map";
 import Footer from "./components/Footer";
 
 export default function Home() {
@@ -18,6 +19,7 @@ export default function Home() {
         <Gallery />
         <Reviews />
         <Contact />
+        <Map />
       </main>
       <Footer />
     </>

@@ -8,7 +8,8 @@ const links = [
   { href: '#about', label: 'Notre Histoire' },
   { href: '#galerie', label: 'Galerie' },
   { href: '#avis', label: 'Avis' },
-  { href: '#contact', label: 'Contact' },
+  { href: '#reservation', label: 'Réservation' },
+  { href: '#acces', label: 'Accès' },
 ];
 
 export default function Navbar() {
