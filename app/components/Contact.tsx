@@ -39,11 +39,11 @@ export default function Contact() {
   };
 
   const inputClass =
-    'w-full px-4 py-3 bg-[#FEF9F5] border border-[#C41E1E]/15 rounded-xl text-[#1C0A00] placeholder-[#7C4A1E]/35 focus:outline-none focus:border-[#C41E1E]/45 focus:ring-2 focus:ring-[#C41E1E]/10 transition-all duration-200 text-sm min-h-[48px]';
+    'w-full px-4 py-3 bg-[#FFF8F2] border border-[#C41E1E]/15 rounded-xl text-[#1C0A00] placeholder-[#7C4A1E]/35 focus:outline-none focus:border-[#C41E1E]/45 focus:ring-2 focus:ring-[#C41E1E]/10 transition-all duration-200 text-sm min-h-[48px]';
   const labelClass = 'block text-[11px] font-semibold text-[#1C0A00]/60 mb-2 uppercase tracking-[0.1em]';
 
   return (
-    <section id="contact" className="py-16 sm:py-24 px-4 sm:px-6 bg-[#FEF3F3]" ref={ref}>
+    <section id="contact" className="py-16 sm:py-24 px-4 sm:px-6 bg-[#FFF5EC]" ref={ref}>
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12 sm:mb-16">
           <div className="inline-flex items-center gap-2.5 mb-5">
@@ -231,7 +231,7 @@ export default function Contact() {
                           className={`py-2.5 rounded-xl text-sm font-semibold transition-all duration-150 cursor-pointer min-h-[44px] border ${
                             form.guests === n
                               ? 'bg-[#C41E1E] text-white border-[#C41E1E] shadow-md shadow-[#C41E1E]/20'
-                              : 'bg-[#FEF9F5] text-[#1C0A00]/60 border-[#C41E1E]/15 hover:border-[#C41E1E]/40'
+                              : 'bg-[#FFF8F2] text-[#1C0A00]/60 border-[#C41E1E]/15 hover:border-[#C41E1E]/40'
                           }`}
                         >
                           {n}

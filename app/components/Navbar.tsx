@@ -17,7 +17,7 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
+    const onScroll = () => setScrolled(window.scrollY > 60);
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
@@ -26,8 +26,8 @@ export default function Navbar() {
     <header
       className={`fixed top-4 left-4 right-4 z-50 rounded-2xl transition-all duration-500 ${
         scrolled
-          ? 'bg-[#FEF9F5]/96 backdrop-blur-xl shadow-sm shadow-[#C41E1E]/8 border border-[#C41E1E]/10'
-          : 'bg-transparent'
+          ? 'bg-[#FFF8F2]/97 backdrop-blur-xl shadow-sm shadow-[#C41E1E]/8 border border-[#C41E1E]/10'
+          : 'bg-black/20 backdrop-blur-sm border border-white/8'
       }`}
     >
       <nav className="max-w-6xl mx-auto flex items-center justify-between px-5 py-3.5" aria-label="Navigation principale">
@@ -43,7 +43,7 @@ export default function Navbar() {
             </span>
           </div>
           <span
-            className="text-xl font-semibold text-[#1C0A00] tracking-wide hidden sm:block"
+            className={`text-xl font-semibold tracking-wide hidden sm:block transition-colors duration-300 ${scrolled ? 'text-[#1C0A00]' : 'text-white'}`}
             style={{ fontFamily: 'var(--font-heading)' }}
           >
             Loulou
@@ -51,12 +51,16 @@ export default function Navbar() {
         </a>
 
         {/* Desktop links */}
-        <ul className="hidden lg:flex items-center gap-7" role="list">
+        <ul className="hidden lg:flex items-center gap-6" role="list">
           {links.map((l) => (
             <li key={l.href}>
               <a
                 href={l.href}
-                className="text-[#1C0A00]/75 hover:text-[#C41E1E] transition-colors duration-200 font-medium text-[13px] uppercase tracking-[0.08em] cursor-pointer"
+                className={`transition-colors duration-200 font-medium text-[12px] uppercase tracking-[0.09em] cursor-pointer ${
+                  scrolled
+                    ? 'text-[#1C0A00]/70 hover:text-[#C41E1E]'
+                    : 'text-white/85 hover:text-white'
+                }`}
                 style={{ fontFamily: 'var(--font-body)' }}
               >
                 {l.label}
@@ -68,7 +72,11 @@ export default function Navbar() {
         {/* CTA */}
         <a
           href="tel:+33467013267"
-          className="hidden lg:flex items-center gap-2 bg-[#C41E1E] hover:bg-[#A01818] text-white px-5 py-2.5 rounded-full text-[13px] font-semibold tracking-wide transition-colors duration-200 cursor-pointer shadow-md shadow-[#C41E1E]/20"
+          className={`hidden lg:flex items-center gap-2 px-5 py-2.5 rounded-full text-[13px] font-semibold tracking-wide transition-all duration-200 cursor-pointer min-h-[44px] ${
+            scrolled
+              ? 'bg-[#C41E1E] hover:bg-[#A01818] text-white shadow-md shadow-[#C41E1E]/20'
+              : 'bg-white/12 hover:bg-white/20 border border-white/25 text-white'
+          }`}
           style={{ fontFamily: 'var(--font-body)' }}
         >
           <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 fill-current shrink-0" aria-hidden="true">
@@ -79,13 +87,15 @@ export default function Navbar() {
 
         {/* Burger */}
         <button
-          className="lg:hidden cursor-pointer p-2 rounded-lg hover:bg-[#C41E1E]/10 transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center"
+          className={`lg:hidden cursor-pointer p-2 rounded-lg transition-colors min-h-[44px] min-w-[44px] flex items-center justify-center ${
+            scrolled ? 'hover:bg-[#C41E1E]/10' : 'hover:bg-white/15'
+          }`}
           onClick={() => setOpen((v) => !v)}
           aria-label={open ? 'Fermer le menu' : 'Ouvrir le menu'}
           aria-expanded={open}
           aria-controls="mobile-menu"
         >
-          <svg viewBox="0 0 24 24" className="w-5 h-5 fill-[#1C0A00]" aria-hidden="true">
+          <svg viewBox="0 0 24 24" className={`w-5 h-5 transition-colors duration-300 ${scrolled ? 'fill-[#1C0A00]' : 'fill-white'}`} aria-hidden="true">
             {open
               ? <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
               : <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
@@ -103,7 +113,7 @@ export default function Navbar() {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.25, ease: [0.0, 0.0, 0.2, 1] }}
-            className="lg:hidden overflow-hidden bg-[#FEF9F5] border-t border-[#C41E1E]/10 rounded-b-2xl"
+            className="lg:hidden overflow-hidden bg-[#FFF8F2] border-t border-[#C41E1E]/10 rounded-b-2xl"
           >
             <div className="px-5 py-5 flex flex-col gap-1">
               {links.map((l) => (

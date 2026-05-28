@@ -38,7 +38,7 @@ export default function About() {
   const inView = useInView(ref, { once: true, margin: '-80px' });
 
   return (
-    <section id="about" className="py-16 sm:py-24 px-4 sm:px-6 bg-[#FFF5F5]">
+    <section id="about" className="py-16 sm:py-24 px-4 sm:px-6 bg-[#F5F0E6]">
       <div className="max-w-6xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center" ref={ref}>
           {/* Text */}
@@ -85,7 +85,7 @@ export default function About() {
 
             <a
               href="#contact"
-              className="inline-flex items-center gap-2.5 mt-9 bg-[#B8860B] hover:bg-[#9A7009] text-white px-7 py-3.5 rounded-full text-sm font-semibold tracking-wide transition-colors duration-200 cursor-pointer shadow-md shadow-[#B8860B]/20 min-h-[52px]"
+              className="inline-flex items-center gap-2.5 mt-9 bg-[#C8960C] hover:bg-[#9A7009] text-white px-7 py-3.5 rounded-full text-sm font-semibold tracking-wide transition-colors duration-200 cursor-pointer shadow-md shadow-[#C8960C]/20 min-h-[52px]"
               style={{ fontFamily: 'var(--font-body)' }}
             >
               Venir nous voir
@@ -119,7 +119,7 @@ export default function About() {
               <div className="mt-5 flex items-center gap-2">
                 <div className="flex gap-0.5">
                   {[...Array(5)].map((_, i) => (
-                    <svg key={i} viewBox="0 0 24 24" className="w-4 h-4 fill-[#B8860B]" aria-hidden="true">
+                    <svg key={i} viewBox="0 0 24 24" className="w-4 h-4 fill-[#C8960C]" aria-hidden="true">
                       <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
                     </svg>
                   ))}

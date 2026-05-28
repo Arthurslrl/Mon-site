@@ -7,7 +7,7 @@ const reviews = [
   {
     name: 'Marie T.',
     initial: 'M',
-    color: '#DC2626',
+    color: '#C41E1E',
     rating: 5,
     date: 'Juillet 2025',
     source: 'Google',
@@ -121,7 +121,7 @@ export default function Reviews() {
   const inView = useInView(ref, { once: true, margin: '-60px' });
 
   return (
-    <section id="avis" aria-labelledby="reviews-title" className="py-16 sm:py-24 px-4 sm:px-6 bg-[#FFFCF0]" ref={ref}>
+    <section id="avis" aria-labelledby="reviews-title" className="py-16 sm:py-24 px-4 sm:px-6 bg-[#FDFAF4]" ref={ref}>
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <motion.div
@@ -165,7 +165,7 @@ export default function Reviews() {
                     {r.score}
                   </p>
                 </div>
-                <p className="text-xs text-[#78350F]">{r.count}</p>
+                <p className="text-xs text-[#7C4A1E]">{r.count}</p>
               </div>
             ))}
           </div>
@@ -192,22 +192,22 @@ export default function Reviews() {
                     {review.initial}
                   </div>
                   <div>
-                    <p className="font-semibold text-[#450A0A] text-sm">{review.name}</p>
-                    <p className="text-xs text-[#78350F]">{review.date}</p>
+                    <p className="font-semibold text-[#1C0A00] text-sm">{review.name}</p>
+                    <p className="text-xs text-[#7C4A1E]">{review.date}</p>
                   </div>
                 </div>
                 <div
-                  className="flex items-center gap-1.5 bg-white px-2.5 py-1.5 rounded-lg border border-[#DC2626]/10"
+                  className="flex items-center gap-1.5 bg-white px-2.5 py-1.5 rounded-lg border border-[#C41E1E]/10"
                   title={`Avis ${review.source}`}
                 >
                   {review.sourceIcon}
-                  <span className="text-xs text-[#78350F] font-medium">{review.source}</span>
+                  <span className="text-xs text-[#7C4A1E] font-medium">{review.source}</span>
                 </div>
               </div>
 
               <Stars rating={review.rating} />
 
-              <blockquote className="mt-3 text-sm text-[#78350F] leading-relaxed">
+              <blockquote className="mt-3 text-sm text-[#7C4A1E] leading-relaxed">
                 &ldquo;{review.text}&rdquo;
               </blockquote>
             </motion.article>
@@ -225,7 +225,7 @@ export default function Reviews() {
             href="https://www.google.com/search?q=Pizzeria+Loulou+Valras-Plage"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-[#DC2626] hover:bg-[#B91C1C] text-white px-6 py-3 rounded-full text-sm font-semibold transition-colors duration-200 cursor-pointer shadow-md shadow-[#DC2626]/20"
+            className="inline-flex items-center gap-2 bg-[#C41E1E] hover:bg-[#A01818] text-white px-6 py-3 rounded-full text-sm font-semibold transition-colors duration-200 cursor-pointer shadow-md shadow-[#C41E1E]/20"
           >
             Laisser un avis Google
             <svg viewBox="0 0 24 24" className="w-4 h-4 fill-current" aria-hidden="true">
@@ -236,7 +236,7 @@ export default function Reviews() {
             href="https://www.tripadvisor.fr/Restaurant_Review-g1055983-d10629545-Reviews-Pizza_Loulou-Valras_Plage_Herault_Occitanie.html"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 bg-white border border-[#DC2626]/20 hover:border-[#DC2626]/40 text-[#450A0A] px-6 py-3 rounded-full text-sm font-semibold transition-colors duration-200 cursor-pointer"
+            className="inline-flex items-center gap-2 bg-white border border-[#C41E1E]/20 hover:border-[#C41E1E]/40 text-[#1C0A00] px-6 py-3 rounded-full text-sm font-semibold transition-colors duration-200 cursor-pointer"
           >
             Voir sur TripAdvisor
             <svg viewBox="0 0 24 24" className="w-4 h-4 fill-current" aria-hidden="true">

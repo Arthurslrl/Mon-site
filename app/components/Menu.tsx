@@ -53,19 +53,19 @@ export default function Menu() {
   const current = categories.find((c) => c.id === active)!;
 
   return (
-    <section id="menu" className="py-16 sm:py-24 px-4 sm:px-6 bg-[#FFFBEB]">
+    <section id="menu" className="py-16 sm:py-24 px-4 sm:px-6 bg-[#FFF8F0]">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-14">
           <div className="inline-flex items-center gap-2.5 mb-5">
-            <span className="block w-6 h-px bg-[#B8860B]" aria-hidden="true" />
+            <span className="block w-6 h-px bg-[#C8960C]" aria-hidden="true" />
             <p
-              className="text-[#B8860B] text-xs font-semibold uppercase tracking-[0.2em]"
+              className="text-[#C8960C] text-xs font-semibold uppercase tracking-[0.2em]"
               style={{ fontFamily: 'var(--font-body)' }}
             >
               Notre Carte
             </p>
-            <span className="block w-6 h-px bg-[#B8860B]" aria-hidden="true" />
+            <span className="block w-6 h-px bg-[#C8960C]" aria-hidden="true" />
           </div>
           <h2
             className="text-4xl sm:text-5xl md:text-6xl font-semibold text-[#1C0A00] tracking-[-0.01em]"
@@ -131,7 +131,7 @@ export default function Menu() {
                     </h3>
                     {item.tag && (
                       <span
-                        className="bg-[#B8860B] text-white text-[10px] px-2 py-0.5 rounded-full font-semibold uppercase tracking-wide shrink-0"
+                        className="bg-[#C8960C] text-white text-[10px] px-2 py-0.5 rounded-full font-semibold uppercase tracking-wide shrink-0"
                         style={{ fontFamily: 'var(--font-body)' }}
                       >
                         {item.tag}

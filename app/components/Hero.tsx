@@ -55,7 +55,7 @@ export default function Hero() {
 
       {/* Floating ornament dots */}
       <motion.div
-        className="absolute top-[18%] right-[12%] w-2 h-2 rounded-full bg-[#B8860B]/70 hidden lg:block"
+        className="absolute top-[18%] right-[12%] w-2 h-2 rounded-full bg-[#C8960C]/70 hidden lg:block"
         animate={{ y: [-8, 8, -8], opacity: [0.5, 1, 0.5] }}
         transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
         aria-hidden="true"
@@ -71,9 +71,9 @@ export default function Hero() {
       <div className="relative z-10 flex-1 flex flex-col justify-end max-w-6xl mx-auto w-full px-5 sm:px-8 lg:px-10 pt-28 pb-10 sm:pb-14">
 
         <motion.div {...fadeUp(0)} className="flex items-center gap-3 mb-6">
-          <span className="block w-7 h-px bg-[#B8860B]" aria-hidden="true" />
+          <span className="block w-7 h-px bg-[#C8960C]" aria-hidden="true" />
           <span
-            className="text-[#B8860B] text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.25em]"
+            className="text-[#C8960C] text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.25em]"
             style={{ fontFamily: 'var(--font-body)' }}
           >
             Valras-Plage · Hérault · Depuis 1985
@@ -98,7 +98,7 @@ export default function Hero() {
               className="inline-flex items-center gap-1.5 bg-white/8 backdrop-blur-sm border border-white/15 text-white/80 text-[11px] font-medium px-3.5 py-1.5 rounded-full tracking-wide"
               style={{ fontFamily: 'var(--font-body)' }}
             >
-              <span className="w-1 h-1 rounded-full bg-[#B8860B] shrink-0" aria-hidden="true" />
+              <span className="w-1 h-1 rounded-full bg-[#C8960C] shrink-0" aria-hidden="true" />
               {tag}
             </span>
           ))}
@@ -145,7 +145,7 @@ export default function Hero() {
               className={`${i > 0 ? 'sm:border-l sm:border-white/12 sm:pl-7' : ''}`}
             >
               <p
-                className="text-xl sm:text-2xl font-semibold text-[#B8860B]"
+                className="text-xl sm:text-2xl font-semibold text-[#C8960C]"
                 style={{ fontFamily: 'var(--font-heading)' }}
               >
                 {s.value}

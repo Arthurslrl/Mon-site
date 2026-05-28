@@ -1,12 +1,14 @@
 @import "tailwindcss";
 
+/* ── Palette italienne ─────────────────────────────────────────── */
 :root {
-  --background: #FEF9F5;
-  --foreground: #1C0A00;
-  --primary: #C41E1E;
-  --secondary: #E85C5C;
-  --accent: #B8860B;
-  --muted: #7C4A1E;
+  --background: #FFF8F2;        /* crème chaude, comme une nappe italienne */
+  --foreground: #1C0A00;        /* brun très foncé, encre sur parchemin */
+  --primary: #C41E1E;           /* rouge tomate authentique */
+  --secondary: #E8694A;         /* terracotta */
+  --accent: #C8960C;            /* or huile d'olive */
+  --green: #4A7040;             /* vert basilic */
+  --muted: #7C4A1E;             /* brun terre de Sienne */
   --surface: #FFFFFF;
   --border: rgba(196, 30, 30, 0.12);
 }
@@ -22,9 +24,7 @@
   --font-body: var(--font-body);
 }
 
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -53,7 +53,7 @@ h1, h2, h3, h4 {
 }
 
 ::selection {
-  background: rgba(196, 30, 30, 0.15);
+  background: rgba(196, 30, 30, 0.18);
   color: #1C0A00;
 }
 
