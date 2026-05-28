@@ -43,7 +43,7 @@ export default function Gallery() {
   const [lightbox, setLightbox] = useState<null | typeof photos[0]>(null);
 
   return (
-    <section id="galerie" aria-labelledby="gallery-title" className="py-16 sm:py-24 px-4 sm:px-6 bg-[#E8DFC9]" ref={ref}>
+    <section id="galerie" aria-labelledby="gallery-title" className="py-16 sm:py-24 px-4 sm:px-6 bg-[#F9F3E5]" ref={ref}>
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}

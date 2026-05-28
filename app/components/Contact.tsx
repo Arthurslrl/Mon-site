@@ -43,7 +43,7 @@ export default function Contact() {
   const labelClass = 'block text-[11px] font-semibold text-[#1C0A00]/60 mb-2 uppercase tracking-[0.1em]';
 
   return (
-    <section id="contact" className="py-16 sm:py-24 px-4 sm:px-6 bg-[#FFF5EC]" ref={ref}>
+    <section id="contact" className="py-16 sm:py-24 px-4 sm:px-6 bg-[#FFFCF5]" ref={ref}>
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12 sm:mb-16">
           <div className="inline-flex items-center gap-2.5 mb-5">
