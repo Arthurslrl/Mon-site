@@ -53,17 +53,13 @@ export default function Hero() {
         aria-hidden="true"
       />
 
-      {/* Floating ornament dots */}
-      <motion.div
-        className="absolute top-[18%] right-[12%] w-2 h-2 rounded-full bg-[#C8960C]/70 hidden lg:block"
-        animate={{ y: [-8, 8, -8], opacity: [0.5, 1, 0.5] }}
-        transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+      {/* Floating ornament dots — statiques, pas d'animation continue (anti-pattern UX) */}
+      <div
+        className="absolute top-[18%] right-[12%] w-2 h-2 rounded-full bg-[#CA8A04]/50 hidden lg:block"
         aria-hidden="true"
       />
-      <motion.div
-        className="absolute top-[55%] right-[7%] w-3 h-3 rounded-full bg-[#C41E1E]/50 hidden lg:block"
-        animate={{ y: [8, -8, 8] }}
-        transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
+      <div
+        className="absolute top-[55%] right-[7%] w-3 h-3 rounded-full bg-[#DC2626]/35 hidden lg:block"
         aria-hidden="true"
       />
 
@@ -74,13 +70,13 @@ export default function Hero() {
         <motion.div {...fadeUp(0)} className="flex gap-1 mb-5" aria-hidden="true">
           <span className="block w-8 h-[3px] bg-[#4A9040] rounded-full" />
           <span className="block w-8 h-[3px] bg-white/45 rounded-full" />
-          <span className="block w-8 h-[3px] bg-[#C41E1E] rounded-full" />
+          <span className="block w-8 h-[3px] bg-[#DC2626] rounded-full" />
         </motion.div>
 
         <motion.div {...fadeUp(0.06)} className="flex items-center gap-3 mb-6">
-          <span className="block w-7 h-px bg-[#C8960C]" aria-hidden="true" />
+          <span className="block w-7 h-px bg-[#CA8A04]" aria-hidden="true" />
           <span
-            className="text-[#C8960C] text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.25em]"
+            className="text-[#CA8A04] text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.25em]"
             style={{ fontFamily: 'var(--font-body)' }}
           >
             Valras-Plage · Hérault · Depuis 1985
@@ -94,7 +90,7 @@ export default function Hero() {
         >
           Pizzeria
           <br />
-          <em className="text-[#C41E1E] not-italic italic">Loulou</em>
+          <em className="text-[#DC2626] not-italic italic">Loulou</em>
         </motion.h1>
 
         {/* Tags */}
@@ -105,7 +101,7 @@ export default function Hero() {
               className="inline-flex items-center gap-1.5 bg-white/8 backdrop-blur-sm border border-white/15 text-white/80 text-[11px] font-medium px-3.5 py-1.5 rounded-full tracking-wide"
               style={{ fontFamily: 'var(--font-body)' }}
             >
-              <span className="w-1 h-1 rounded-full bg-[#C8960C] shrink-0" aria-hidden="true" />
+              <span className="w-1 h-1 rounded-full bg-[#CA8A04] shrink-0" aria-hidden="true" />
               {tag}
             </span>
           ))}
@@ -124,7 +120,7 @@ export default function Hero() {
         <motion.div {...fadeUp(0.34)} className="flex flex-col sm:flex-row gap-3 mb-10 sm:mb-14">
           <a
             href="#reservation"
-            className="inline-flex items-center justify-center bg-[#C41E1E] hover:bg-[#A01818] text-white px-7 py-4 rounded-full text-sm font-semibold tracking-wide transition-colors duration-200 cursor-pointer shadow-lg shadow-black/30 min-h-[52px]"
+            className="inline-flex items-center justify-center bg-[#DC2626] hover:bg-[#B91C1C] text-white px-7 py-4 rounded-full text-sm font-semibold tracking-wide transition-colors duration-200 cursor-pointer shadow-lg shadow-black/30 min-h-[52px]"
             style={{ fontFamily: 'var(--font-body)' }}
           >
             Réserver une table
@@ -152,7 +148,7 @@ export default function Hero() {
               className={`${i > 0 ? 'sm:border-l sm:border-white/12 sm:pl-7' : ''}`}
             >
               <p
-                className="text-xl sm:text-2xl font-semibold text-[#C8960C]"
+                className="text-xl sm:text-2xl font-semibold text-[#CA8A04]"
                 style={{ fontFamily: 'var(--font-heading)' }}
               >
                 {s.value}

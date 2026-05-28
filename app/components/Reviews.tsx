@@ -179,7 +179,7 @@ export default function Reviews() {
               initial={{ opacity: 0, y: 30 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.5, delay: i * 0.08, ease: [0.0, 0.0, 0.2, 1] }}
-              className="bg-white rounded-2xl p-6 border border-[#C41E1E]/8 hover:border-[#C41E1E]/20 hover:shadow-md hover:shadow-[#C41E1E]/5 transition-all duration-200"
+              className="bg-white rounded-2xl p-6 border border-[#C41E1E]/8 hover:border-[#C41E1E]/20 hover:shadow-md hover:shadow-[#450A0A]/6 transition-all duration-200"
             >
               {/* Header */}
               <div className="flex items-start justify-between mb-4">

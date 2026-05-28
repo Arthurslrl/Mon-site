@@ -119,7 +119,7 @@ export default function Menu() {
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: i * 0.045, duration: 0.38, ease: [0.0, 0.0, 0.2, 1] }}
-                className="flex items-start justify-between gap-5 bg-white rounded-2xl p-5 border border-[#C41E1E]/8 hover:border-[#C41E1E]/20 hover:shadow-md hover:shadow-[#C41E1E]/5 transition-all duration-250"
+                className="flex items-start justify-between gap-5 bg-white rounded-2xl p-5 border border-[#C41E1E]/8 hover:border-[#C41E1E]/20 hover:shadow-md hover:shadow-[#450A0A]/6 transition-all duration-200"
               >
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1.5">
