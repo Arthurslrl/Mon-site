@@ -53,7 +53,7 @@ export default function Menu() {
   const current = categories.find((c) => c.id === active)!;
 
   return (
-    <section id="menu" className="py-24 px-6 bg-[#FFFBEB]">
+    <section id="menu" className="py-16 sm:py-24 px-4 sm:px-6 bg-[#FFFBEB]">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-14">
@@ -68,7 +68,7 @@ export default function Menu() {
             <span className="block w-6 h-px bg-[#B8860B]" aria-hidden="true" />
           </div>
           <h2
-            className="text-5xl md:text-6xl font-semibold text-[#1C0A00] tracking-[-0.01em]"
+            className="text-4xl sm:text-5xl md:text-6xl font-semibold text-[#1C0A00] tracking-[-0.01em]"
             style={{ fontFamily: 'var(--font-heading)' }}
           >
             Les Saveurs de Loulou

@@ -121,7 +121,7 @@ export default function Reviews() {
   const inView = useInView(ref, { once: true, margin: '-60px' });
 
   return (
-    <section id="avis" aria-labelledby="reviews-title" className="py-24 px-6 bg-[#FFFCF0]" ref={ref}>
+    <section id="avis" aria-labelledby="reviews-title" className="py-16 sm:py-24 px-4 sm:px-6 bg-[#FFFCF0]" ref={ref}>
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <motion.div
@@ -142,7 +142,7 @@ export default function Reviews() {
           </div>
           <h2
             id="reviews-title"
-            className="text-4xl md:text-5xl font-semibold text-[#1C0A00] tracking-[-0.01em]"
+            className="text-3xl sm:text-4xl md:text-5xl font-semibold text-[#1C0A00] tracking-[-0.01em]"
             style={{ fontFamily: 'var(--font-heading)' }}
           >
             Ce que disent nos clients

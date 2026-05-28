@@ -24,7 +24,7 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="py-24 px-6 bg-[#FEF3F3]" ref={ref}>
+    <section id="contact" className="py-16 sm:py-24 px-4 sm:px-6 bg-[#FEF3F3]" ref={ref}>
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-14">
           <div className="inline-flex items-center gap-2.5 mb-5">
@@ -38,7 +38,7 @@ export default function Contact() {
             <span className="block w-6 h-px bg-[#C41E1E]" aria-hidden="true" />
           </div>
           <h2
-            className="text-5xl md:text-6xl font-semibold text-[#1C0A00] tracking-[-0.01em]"
+            className="text-4xl sm:text-5xl md:text-6xl font-semibold text-[#1C0A00] tracking-[-0.01em]"
             style={{ fontFamily: 'var(--font-heading)' }}
           >
             On vous attend
@@ -51,7 +51,7 @@ export default function Contact() {
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-12">
+        <div className="grid lg:grid-cols-2 gap-10 lg:gap-12">
           {/* Info */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}

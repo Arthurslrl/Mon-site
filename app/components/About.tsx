@@ -38,9 +38,9 @@ export default function About() {
   const inView = useInView(ref, { once: true, margin: '-80px' });
 
   return (
-    <section id="about" className="py-24 px-6 bg-[#FFF5F5]">
+    <section id="about" className="py-16 sm:py-24 px-4 sm:px-6 bg-[#FFF5F5]">
       <div className="max-w-6xl mx-auto">
-        <div className="grid lg:grid-cols-2 gap-16 items-center" ref={ref}>
+        <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center" ref={ref}>
           {/* Text */}
           <motion.div
             initial={{ opacity: 0, x: -32 }}
@@ -57,7 +57,7 @@ export default function About() {
               </p>
             </div>
             <h2
-              className="text-5xl font-semibold text-[#1C0A00] leading-[1.05] tracking-[-0.01em] mb-7"
+              className="text-4xl sm:text-5xl font-semibold text-[#1C0A00] leading-[1.05] tracking-[-0.01em] mb-7"
               style={{ fontFamily: 'var(--font-heading)' }}
             >
               40 ans de passion

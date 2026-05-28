@@ -43,7 +43,7 @@ export default function Gallery() {
   const [lightbox, setLightbox] = useState<null | typeof photos[0]>(null);
 
   return (
-    <section id="galerie" aria-labelledby="gallery-title" className="py-24 px-6 bg-[#F7F4F1]" ref={ref}>
+    <section id="galerie" aria-labelledby="gallery-title" className="py-16 sm:py-24 px-4 sm:px-6 bg-[#F7F4F1]" ref={ref}>
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -63,7 +63,7 @@ export default function Gallery() {
           </div>
           <h2
             id="gallery-title"
-            className="text-4xl md:text-5xl font-semibold text-[#1C0A00] tracking-[-0.01em]"
+            className="text-3xl sm:text-4xl md:text-5xl font-semibold text-[#1C0A00] tracking-[-0.01em]"
             style={{ fontFamily: 'var(--font-heading)' }}
           >
             Dans notre cuisine
@@ -76,7 +76,7 @@ export default function Gallery() {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 auto-rows-[200px]">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-2 sm:gap-3 auto-rows-[160px] sm:auto-rows-[200px]">
           {photos.map((photo, i) => (
             <motion.div
               key={photo.src}
