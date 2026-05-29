@@ -1,7 +1,8 @@
 'use client';
 
 import Image from 'next/image';
-import { motion } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react';
 
 function fadeUp(delay: number) {
   return {
@@ -11,13 +12,38 @@ function fadeUp(delay: number) {
   } as const;
 }
 
+function CountUp({ to, suffix = '', decimals = 0 }: { to: number; suffix?: string; decimals?: number }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true, margin: '-40px' });
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    if (!inView) return;
+    const duration = 1600;
+    const startTime = performance.now();
+    const raf = requestAnimationFrame(function tick(now) {
+      const progress = Math.min((now - startTime) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setCount(parseFloat((eased * to).toFixed(decimals)));
+      if (progress < 1) requestAnimationFrame(tick);
+    });
+    return () => cancelAnimationFrame(raf);
+  }, [inView, to, decimals]);
+
+  return (
+    <span ref={ref}>
+      {decimals > 0 ? count.toFixed(decimals) : Math.floor(count)}{suffix}
+    </span>
+  );
+}
+
 const tags = ['Four à bois · 450°C', 'Pâtes maison', 'Ingrédients frais', 'Depuis 1985'];
 
 const stats = [
-  { value: '40+', label: "ans d'expérience" },
-  { value: '30+', label: 'pizzas artisanales' },
-  { value: '4.5★', label: '382 avis Google' },
-  { value: '450°', label: 'cuisson au feu' },
+  { to: 40, suffix: '+', decimals: 0, label: "ans d'expérience" },
+  { to: 30, suffix: '+', decimals: 0, label: 'pizzas artisanales' },
+  { to: 4.5, suffix: '★', decimals: 1, label: '382 avis Google' },
+  { to: 450, suffix: '°', decimals: 0, label: 'cuisson au feu' },
 ];
 
 export default function Hero() {
@@ -27,7 +53,7 @@ export default function Hero() {
       className="relative min-h-screen flex flex-col overflow-hidden"
       aria-label="Accueil Pizzeria Loulou"
     >
-      {/* Real pizza photo */}
+      {/* Pizza photo */}
       <Image
         src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=1920&h=1080&fit=crop&q=88"
         alt="Pizza artisanale au four à bois — Pizzeria Loulou Valras-Plage"
@@ -37,7 +63,7 @@ export default function Hero() {
         className="object-cover object-center"
       />
 
-      {/* Gradient overlay — dark bottom + left edge for readability */}
+      {/* Gradient overlay */}
       <div
         className="absolute inset-0"
         style={{
@@ -46,7 +72,6 @@ export default function Hero() {
         }}
         aria-hidden="true"
       />
-      {/* Left vignette for editorial feel */}
       <div
         className="absolute inset-0 hidden md:block"
         style={{ background: 'linear-gradient(to right, rgba(10,3,0,0.55) 0%, transparent 55%)' }}
@@ -92,15 +117,18 @@ export default function Hero() {
 
         {/* Tags */}
         <motion.div {...fadeUp(0.18)} className="flex flex-wrap gap-2 mb-6">
-          {tags.map((tag) => (
-            <span
+          {tags.map((tag, i) => (
+            <motion.span
               key={tag}
+              initial={{ opacity: 0, scale: 0.85 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.32 + i * 0.07, duration: 0.4, ease: [0.0, 0.0, 0.2, 1] }}
               className="inline-flex items-center gap-1.5 bg-white/8 backdrop-blur-sm border border-white/15 text-white/80 text-[11px] font-medium px-3.5 py-1.5 rounded-full tracking-wide"
               style={{ fontFamily: 'var(--font-body)' }}
             >
               <span className="w-1 h-1 rounded-full bg-[#C8960C] shrink-0" aria-hidden="true" />
               {tag}
-            </span>
+            </motion.span>
           ))}
         </motion.div>
 
@@ -115,26 +143,41 @@ export default function Hero() {
 
         {/* CTAs */}
         <motion.div {...fadeUp(0.34)} className="flex flex-col sm:flex-row gap-3 mb-10 sm:mb-14">
-          <a
-            href="#reservation"
-            className="inline-flex items-center justify-center bg-[#C41E1E] hover:bg-[#A01818] text-white px-7 py-4 rounded-full text-sm font-semibold tracking-wide transition-colors duration-200 cursor-pointer shadow-lg shadow-black/30 min-h-[52px]"
-            style={{ fontFamily: 'var(--font-body)' }}
-          >
-            Réserver une table
-          </a>
+          {/* Primary CTA with pulse ring */}
+          <div className="relative inline-flex self-start sm:self-auto">
+            <motion.span
+              className="absolute inset-0 rounded-full bg-[#C41E1E]/40 pointer-events-none"
+              animate={{ scale: [1, 1.35, 1], opacity: [0.5, 0, 0.5] }}
+              transition={{ duration: 2.8, repeat: Infinity, ease: 'easeOut', delay: 1.5 }}
+              aria-hidden="true"
+            />
+            <a
+              href="#reservation"
+              className="relative inline-flex items-center justify-center bg-[#C41E1E] hover:bg-[#A01818] text-white px-7 py-4 rounded-full text-sm font-semibold tracking-wide transition-colors duration-200 cursor-pointer shadow-lg shadow-black/30 min-h-[52px]"
+              style={{ fontFamily: 'var(--font-body)' }}
+            >
+              Réserver une table
+            </a>
+          </div>
           <a
             href="#menu"
             className="inline-flex items-center justify-center gap-2 border border-white/25 hover:border-white/50 hover:bg-white/8 text-white/85 hover:text-white backdrop-blur-sm px-7 py-4 rounded-full text-sm font-semibold tracking-wide transition-all duration-200 cursor-pointer min-h-[52px]"
             style={{ fontFamily: 'var(--font-body)' }}
           >
             Voir la carte
-            <svg viewBox="0 0 24 24" className="w-4 h-4 fill-current shrink-0" aria-hidden="true">
+            <motion.svg
+              viewBox="0 0 24 24"
+              className="w-4 h-4 fill-current shrink-0"
+              animate={{ x: [0, 4, 0] }}
+              transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
+              aria-hidden="true"
+            >
               <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
-            </svg>
+            </motion.svg>
           </a>
         </motion.div>
 
-        {/* Stats */}
+        {/* Stats with CountUp */}
         <motion.div
           {...fadeUp(0.44)}
           className="pt-6 border-t border-white/12 grid grid-cols-2 sm:grid-cols-4 gap-5 sm:gap-0"
@@ -148,7 +191,7 @@ export default function Hero() {
                 className="text-xl sm:text-2xl font-semibold text-[#C8960C]"
                 style={{ fontFamily: 'var(--font-heading)' }}
               >
-                {s.value}
+                <CountUp to={s.to} suffix={s.suffix} decimals={s.decimals} />
               </p>
               <p
                 className="text-[10px] text-white/40 uppercase tracking-[0.12em] mt-0.5 leading-tight"

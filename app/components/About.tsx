@@ -1,7 +1,26 @@
 'use client';
 
 import { motion, useInView } from 'framer-motion';
-import { useRef } from 'react';
+import { useRef, useEffect, useState } from 'react';
+
+function CountUp({ to, suffix = '' }: { to: number; suffix?: string }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true, margin: '-40px' });
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    if (!inView) return;
+    const duration = 1800;
+    const start = performance.now();
+    const raf = requestAnimationFrame(function tick(now) {
+      const p = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      setCount(Math.floor(eased * to));
+      if (p < 1) requestAnimationFrame(tick);
+    });
+    return () => cancelAnimationFrame(raf);
+  }, [inView, to]);
+  return <span ref={ref}>{count.toLocaleString('fr-FR')}{suffix}</span>;
+}
 
 const values = [
   {
@@ -115,7 +134,7 @@ export default function About() {
                 className="text-5xl font-semibold mb-1.5 tracking-[-0.02em]"
                 style={{ fontFamily: 'var(--font-heading)' }}
               >
-                +40 000
+                +<CountUp to={40000} />
               </p>
               <p
                 className="text-white/70 text-sm"
