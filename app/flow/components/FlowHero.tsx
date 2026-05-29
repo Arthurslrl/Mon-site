@@ -1,7 +1,5 @@
 'use client';
 
-import { motion } from 'framer-motion';
-
 const logos = ['Linear', 'Vercel', 'Stripe', 'Notion', 'Figma'];
 
 function MockupDashboard() {
@@ -66,24 +64,16 @@ function MockupDashboard() {
       </div>
 
       {/* Floating badge */}
-      <motion.div
-        className="absolute -top-4 -right-4 bg-white/10 backdrop-blur-md border border-white/15 rounded-xl px-3 py-2 flex items-center gap-2 shadow-xl"
-        animate={{ y: [-4, 4, -4] }}
-        transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-      >
-        <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+      <div className="absolute -top-4 -right-4 bg-white/10 backdrop-blur-md border border-white/15 rounded-xl px-3 py-2 flex items-center gap-2 shadow-xl">
+        <div className="w-2 h-2 rounded-full bg-green-400" />
         <span className="text-xs text-white font-medium">In flow state</span>
-      </motion.div>
+      </div>
 
       {/* Floating stat */}
-      <motion.div
-        className="absolute -bottom-4 -left-6 bg-white/10 backdrop-blur-md border border-white/15 rounded-xl px-3 py-2 shadow-xl"
-        animate={{ y: [4, -4, 4] }}
-        transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-      >
+      <div className="absolute -bottom-4 -left-6 bg-white/10 backdrop-blur-md border border-white/15 rounded-xl px-3 py-2 shadow-xl">
         <p className="text-xs text-slate-400">Productivity</p>
         <p className="text-lg font-bold text-white">+47%</p>
-      </motion.div>
+      </div>
     </div>
   );
 }
@@ -101,68 +91,42 @@ export default function FlowHero() {
             backgroundSize: '60px 60px',
           }}
         />
-        {/* Orbs */}
-        <motion.div
+        {/* Static orbs */}
+        <div
           className="absolute top-[-15%] left-[-5%] w-[700px] h-[700px] rounded-full"
           style={{ background: 'radial-gradient(circle, rgba(99,102,241,0.35) 0%, transparent 65%)', filter: 'blur(40px)' }}
-          animate={{ x: [-40, 40, -40], y: [-20, 20, -20] }}
-          transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
         />
-        <motion.div
+        <div
           className="absolute top-[20%] right-[-10%] w-[600px] h-[600px] rounded-full"
           style={{ background: 'radial-gradient(circle, rgba(139,92,246,0.3) 0%, transparent 65%)', filter: 'blur(50px)' }}
-          animate={{ x: [30, -30, 30], y: [30, -30, 30] }}
-          transition={{ duration: 15, repeat: Infinity, ease: 'easeInOut' }}
         />
-        <motion.div
+        <div
           className="absolute bottom-[-10%] left-[30%] w-[500px] h-[500px] rounded-full"
           style={{ background: 'radial-gradient(circle, rgba(6,182,212,0.2) 0%, transparent 65%)', filter: 'blur(60px)' }}
-          animate={{ x: [-20, 20, -20], y: [20, -20, 20] }}
-          transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
         />
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 py-20 grid lg:grid-cols-2 gap-16 items-center">
         {/* Left — text */}
         <div>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2 bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-xs font-semibold px-4 py-2 rounded-full mb-6"
-          >
-            <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse" />
+          <div className="inline-flex items-center gap-2 bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-xs font-semibold px-4 py-2 rounded-full mb-6">
+            <span className="w-1.5 h-1.5 rounded-full bg-indigo-400" />
             Now in public beta · 50,000+ teams onboarded
-          </motion.div>
+          </div>
 
-          <motion.h1
-            initial={{ opacity: 0, y: 25 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.05] tracking-tight mb-6"
-          >
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.05] tracking-tight mb-6">
             Work at the
             <br />
             <span className="bg-gradient-to-r from-indigo-400 via-violet-400 to-cyan-400 bg-clip-text text-transparent">
               speed of thought
             </span>
-          </motion.h1>
+          </h1>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-lg text-slate-400 leading-relaxed max-w-lg mb-10"
-          >
+          <p className="text-lg text-slate-400 leading-relaxed max-w-lg mb-10">
             Flow eliminates context switching, surfaces what matters, and keeps your team in a state of deep, uninterrupted focus — every single day.
-          </motion.p>
+          </p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="flex flex-col sm:flex-row gap-4 mb-12"
-          >
+          <div className="flex flex-col sm:flex-row gap-4 mb-12">
             <a href="#" className="flex items-center justify-center gap-2 bg-gradient-to-r from-indigo-500 to-violet-500 hover:from-indigo-400 hover:to-violet-400 text-white px-8 py-4 rounded-xl font-semibold text-sm transition-all duration-200 cursor-pointer shadow-xl shadow-indigo-500/25">
               Start for free
               <svg viewBox="0 0 24 24" className="w-4 h-4 fill-current" aria-hidden="true"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/></svg>
@@ -171,15 +135,10 @@ export default function FlowHero() {
               <svg viewBox="0 0 24 24" className="w-4 h-4 fill-current text-slate-300" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
               Watch demo
             </a>
-          </motion.div>
+          </div>
 
           {/* Social proof */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.5 }}
-            className="flex flex-col sm:flex-row sm:items-center gap-4 pt-6 border-t border-white/8"
-          >
+          <div className="flex flex-col sm:flex-row sm:items-center gap-4 pt-6 border-t border-white/8">
             <div className="flex -space-x-2">
               {['#6366F1', '#8B5CF6', '#06B6D4', '#10B981', '#F59E0B'].map((c, i) => (
                 <div key={i} className="w-8 h-8 rounded-full border-2 border-[#050508] flex items-center justify-center text-[10px] font-bold text-white" style={{ background: c }}>
@@ -201,18 +160,13 @@ export default function FlowHero() {
                 <span key={l} className="text-xs text-slate-500 font-semibold tracking-wide">{l}</span>
               ))}
             </div>
-          </motion.div>
+          </div>
         </div>
 
         {/* Right — mockup */}
-        <motion.div
-          initial={{ opacity: 0, x: 40 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, delay: 0.2, ease: [0.0, 0.0, 0.2, 1] }}
-          className="hidden lg:block"
-        >
+        <div className="hidden lg:block">
           <MockupDashboard />
-        </motion.div>
+        </div>
       </div>
     </section>
   );

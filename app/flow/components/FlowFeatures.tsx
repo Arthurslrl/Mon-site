@@ -1,8 +1,5 @@
 'use client';
 
-import { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
-
 const features = [
   {
     icon: (
@@ -27,12 +24,7 @@ const features = [
           <span className="text-xs font-mono text-indigo-400">24:37</span>
         </div>
         <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
-          <motion.div
-            className="h-full bg-gradient-to-r from-indigo-500 to-violet-500 rounded-full"
-            initial={{ width: '0%' }}
-            whileInView={{ width: '60%' }}
-            transition={{ duration: 1.5, ease: 'easeOut' }}
-          />
+          <div className="h-full w-3/5 bg-gradient-to-r from-indigo-500 to-violet-500 rounded-full" />
         </div>
         <div className="flex gap-2 mt-3">
           {['Block apps', 'Quiet hours', 'Soundscape'].map(tag => (
@@ -115,16 +107,9 @@ const features = [
   },
 ];
 
-function FeatureCard({ feature, index }: { feature: typeof features[0]; index: number }) {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-60px' });
-
+function FeatureCard({ feature }: { feature: typeof features[0] }) {
   return (
-    <motion.article
-      ref={ref}
-      initial={{ opacity: 0, y: 40 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.6, delay: index * 0.12, ease: [0.0, 0.0, 0.2, 1] }}
+    <article
       className={`group relative bg-white/3 hover:bg-white/5 border ${feature.border} rounded-2xl p-6 transition-all duration-300 hover:shadow-2xl ${feature.glow} cursor-default`}
     >
       {/* Background gradient */}
@@ -158,24 +143,15 @@ function FeatureCard({ feature, index }: { feature: typeof features[0]; index: n
 
         {feature.preview}
       </div>
-    </motion.article>
+    </article>
   );
 }
 
 export default function FlowFeatures() {
-  const titleRef = useRef(null);
-  const titleInView = useInView(titleRef, { once: true, margin: '-60px' });
-
   return (
     <section id="features" className="py-28 px-6">
       <div className="max-w-7xl mx-auto">
-        <motion.div
-          ref={titleRef}
-          initial={{ opacity: 0, y: 30 }}
-          animate={titleInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
+        <div className="text-center mb-16">
           <p className="text-sm font-semibold text-indigo-400 uppercase tracking-widest mb-3">Features</p>
           <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-4 tracking-tight">
             Everything you need to stay in{' '}
@@ -186,11 +162,11 @@ export default function FlowFeatures() {
           <p className="text-slate-400 max-w-xl mx-auto text-lg">
             Three powerful tools, one seamless experience. Designed to protect your focus, not fragment it.
           </p>
-        </motion.div>
+        </div>
 
         <div className="grid md:grid-cols-3 gap-6">
-          {features.map((f, i) => (
-            <FeatureCard key={f.title} feature={f} index={i} />
+          {features.map((f) => (
+            <FeatureCard key={f.title} feature={f} />
           ))}
         </div>
       </div>

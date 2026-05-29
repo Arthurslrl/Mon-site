@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 
 const links = [
   { href: '#menu', label: 'La Carte' },
@@ -105,42 +104,36 @@ export default function Navbar() {
       </nav>
 
       {/* Mobile dropdown */}
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            id="mobile-menu"
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.25, ease: [0.0, 0.0, 0.2, 1] }}
-            className="lg:hidden overflow-hidden bg-[#FFF8F2] border-t border-[#C41E1E]/10 rounded-b-2xl"
-          >
-            <div className="px-5 py-5 flex flex-col gap-1">
-              {links.map((l) => (
-                <a
-                  key={l.href}
-                  href={l.href}
-                  onClick={() => setOpen(false)}
-                  className="block py-3 px-2 text-[#1C0A00]/80 hover:text-[#C41E1E] font-medium text-sm uppercase tracking-[0.07em] cursor-pointer transition-colors duration-200 border-b border-[#C41E1E]/8 last:border-0"
-                  style={{ fontFamily: 'var(--font-body)' }}
-                >
-                  {l.label}
-                </a>
-              ))}
+      {open && (
+        <div
+          id="mobile-menu"
+          className="lg:hidden overflow-hidden bg-[#FFF8F2] border-t border-[#C41E1E]/10 rounded-b-2xl"
+        >
+          <div className="px-5 py-5 flex flex-col gap-1">
+            {links.map((l) => (
               <a
-                href="tel:+33467013267"
-                className="mt-3 flex items-center justify-center gap-2 bg-[#C41E1E] hover:bg-[#A01818] text-white py-3.5 rounded-full font-semibold text-sm tracking-wide transition-colors duration-200 cursor-pointer min-h-[44px]"
+                key={l.href}
+                href={l.href}
+                onClick={() => setOpen(false)}
+                className="block py-3 px-2 text-[#1C0A00]/80 hover:text-[#C41E1E] font-medium text-sm uppercase tracking-[0.07em] cursor-pointer transition-colors duration-200 border-b border-[#C41E1E]/8 last:border-0"
                 style={{ fontFamily: 'var(--font-body)' }}
               >
-                <svg viewBox="0 0 24 24" className="w-4 h-4 fill-current" aria-hidden="true">
-                  <path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/>
-                </svg>
-                04 67 01 32 67
+                {l.label}
               </a>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            ))}
+            <a
+              href="tel:+33467013267"
+              className="mt-3 flex items-center justify-center gap-2 bg-[#C41E1E] hover:bg-[#A01818] text-white py-3.5 rounded-full font-semibold text-sm tracking-wide transition-colors duration-200 cursor-pointer min-h-[44px]"
+              style={{ fontFamily: 'var(--font-body)' }}
+            >
+              <svg viewBox="0 0 24 24" className="w-4 h-4 fill-current" aria-hidden="true">
+                <path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/>
+              </svg>
+              04 67 01 32 67
+            </a>
+          </div>
+        </div>
+      )}
     </header>
   );
 }

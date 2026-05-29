@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 
 type Item = { name: string; desc: string; price: string; tag?: string };
 type Category = { id: string; label: string; items: Item[] };
@@ -103,63 +102,54 @@ export default function Menu() {
         </div>
 
         {/* Items grid */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={active}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.18 }}
-            className="grid grid-cols-1 md:grid-cols-2 gap-3"
-            role="tabpanel"
-          >
-            {current.items.map((item, i) => (
-              <motion.article
-                key={item.name}
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.045, duration: 0.38, ease: [0.0, 0.0, 0.2, 1] }}
-                className="flex items-start justify-between gap-5 bg-white rounded-2xl p-5 border border-[#C41E1E]/8 hover:border-[#C41E1E]/20 hover:shadow-md hover:shadow-[#450A0A]/6 transition-all duration-200"
-              >
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-1.5">
-                    <h3
-                      className="font-semibold text-[#1C0A00] text-base leading-snug"
-                      style={{ fontFamily: 'var(--font-heading)' }}
-                    >
-                      {item.name}
-                    </h3>
-                    {item.tag && (
-                      <span
-                        className={`text-white text-[10px] px-2 py-0.5 rounded-full font-semibold uppercase tracking-wide shrink-0 ${
-                          item.tag === 'Spécialité' ? 'bg-[#C41E1E]'
-                          : item.tag === 'Premium' ? 'bg-[#C8960C]'
-                          : item.tag === 'Fait maison' || item.tag === 'Coup de cœur' ? 'bg-[#4A7040]'
-                          : 'bg-[#E8694A]'
-                        }`}
-                        style={{ fontFamily: 'var(--font-body)' }}
-                      >
-                        {item.tag}
-                      </span>
-                    )}
-                  </div>
-                  <p
-                    className="text-[13px] text-[#7C4A1E]/70 leading-relaxed"
-                    style={{ fontFamily: 'var(--font-body)' }}
+        <div
+          key={active}
+          className="grid grid-cols-1 md:grid-cols-2 gap-3"
+          role="tabpanel"
+        >
+          {current.items.map((item) => (
+            <article
+              key={item.name}
+              className="flex items-start justify-between gap-5 bg-white rounded-2xl p-5 border border-[#C41E1E]/8 hover:border-[#C41E1E]/20 hover:shadow-md hover:shadow-[#450A0A]/6 transition-all duration-200"
+            >
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-1.5">
+                  <h3
+                    className="font-semibold text-[#1C0A00] text-base leading-snug"
+                    style={{ fontFamily: 'var(--font-heading)' }}
                   >
-                    {item.desc}
-                  </p>
+                    {item.name}
+                  </h3>
+                  {item.tag && (
+                    <span
+                      className={`text-white text-[10px] px-2 py-0.5 rounded-full font-semibold uppercase tracking-wide shrink-0 ${
+                        item.tag === 'Spécialité' ? 'bg-[#C41E1E]'
+                        : item.tag === 'Premium' ? 'bg-[#C8960C]'
+                        : item.tag === 'Fait maison' || item.tag === 'Coup de cœur' ? 'bg-[#4A7040]'
+                        : 'bg-[#E8694A]'
+                      }`}
+                      style={{ fontFamily: 'var(--font-body)' }}
+                    >
+                      {item.tag}
+                    </span>
+                  )}
                 </div>
                 <p
-                  className="font-semibold text-[#C41E1E] text-lg shrink-0 tabular-nums"
-                  style={{ fontFamily: 'var(--font-heading)' }}
+                  className="text-[13px] text-[#7C4A1E]/70 leading-relaxed"
+                  style={{ fontFamily: 'var(--font-body)' }}
                 >
-                  {item.price}
+                  {item.desc}
                 </p>
-              </motion.article>
-            ))}
-          </motion.div>
-        </AnimatePresence>
+              </div>
+              <p
+                className="font-semibold text-[#C41E1E] text-lg shrink-0 tabular-nums"
+                style={{ fontFamily: 'var(--font-heading)' }}
+              >
+                {item.price}
+              </p>
+            </article>
+          ))}
+        </div>
 
         {/* Note */}
         <p

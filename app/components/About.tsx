@@ -1,8 +1,5 @@
 'use client';
 
-import { motion, useInView } from 'framer-motion';
-import { useRef } from 'react';
-
 const values = [
   {
     iconColor: '#4A7040',
@@ -40,19 +37,12 @@ const values = [
 ];
 
 export default function About() {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-80px' });
-
   return (
     <section id="about" className="py-16 sm:py-24 px-4 sm:px-6 bg-[#EAD9AB]">
       <div className="max-w-6xl mx-auto">
-        <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center" ref={ref}>
+        <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           {/* Text */}
-          <motion.div
-            initial={{ opacity: 0, x: -32 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.7, ease: [0.0, 0.0, 0.2, 1] }}
-          >
+          <div>
             <div className="inline-flex items-center gap-2.5 mb-5">
               <span className="block w-6 h-px bg-[#4A7040]" aria-hidden="true" />
               <p
@@ -100,15 +90,10 @@ export default function About() {
                 <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
               </svg>
             </a>
-          </motion.div>
+          </div>
 
           {/* Right column */}
-          <motion.div
-            initial={{ opacity: 0, x: 32 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.7, ease: [0.0, 0.0, 0.2, 1], delay: 0.12 }}
-            className="space-y-4"
-          >
+          <div className="space-y-4">
             {/* Decorative stat card */}
             <div className="bg-[#C41E1E] rounded-2xl p-7 text-white">
               <p
@@ -141,12 +126,9 @@ export default function About() {
             </div>
 
             {/* Value cards */}
-            {values.map((v, i) => (
-              <motion.div
+            {values.map((v) => (
+              <div
                 key={v.title}
-                initial={{ opacity: 0, y: 16 }}
-                animate={inView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: 0.28 + i * 0.1, ease: [0.0, 0.0, 0.2, 1] }}
                 className="flex gap-4 bg-white rounded-2xl p-5 border border-[#C41E1E]/8 hover:border-[#C41E1E]/20 hover:shadow-sm transition-all duration-200"
               >
                 <div className={`w-11 h-11 rounded-xl ${v.iconBg} flex items-center justify-center shrink-0`}>
@@ -166,9 +148,9 @@ export default function About() {
                     {v.desc}
                   </p>
                 </div>
-              </motion.div>
+              </div>
             ))}
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

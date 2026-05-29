@@ -1,15 +1,6 @@
 'use client';
 
 import Image from 'next/image';
-import { motion } from 'framer-motion';
-
-function fadeUp(delay: number) {
-  return {
-    initial: { opacity: 0, y: 28 },
-    animate: { opacity: 1, y: 0 },
-    transition: { delay, duration: 0.85, ease: [0.0, 0.0, 0.2, 1] as const },
-  } as const;
-}
 
 const tags = ['Four à bois · 450°C', 'Pâtes maison', 'Ingrédients frais', 'Depuis 1985'];
 
@@ -54,23 +45,19 @@ export default function Hero() {
       />
 
       {/* Floating ornament dots */}
-      <motion.div
+      <div
         className="absolute top-[18%] right-[12%] w-2 h-2 rounded-full bg-[#C8960C]/70 hidden lg:block"
-        animate={{ y: [-8, 8, -8], opacity: [0.5, 1, 0.5] }}
-        transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
         aria-hidden="true"
       />
-      <motion.div
+      <div
         className="absolute top-[55%] right-[7%] w-3 h-3 rounded-full bg-[#C41E1E]/50 hidden lg:block"
-        animate={{ y: [8, -8, 8] }}
-        transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
         aria-hidden="true"
       />
 
       {/* Content */}
       <div className="relative z-10 flex-1 flex flex-col justify-end max-w-6xl mx-auto w-full px-5 sm:px-8 lg:px-10 pt-28 pb-10 sm:pb-14">
 
-        <motion.div {...fadeUp(0)} className="flex items-center gap-3 mb-6">
+        <div className="flex items-center gap-3 mb-6">
           <span className="block w-7 h-px bg-[#C8960C]" aria-hidden="true" />
           <span
             className="text-[#C8960C] text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.25em]"
@@ -78,20 +65,19 @@ export default function Hero() {
           >
             Valras-Plage · Hérault · Depuis 1985
           </span>
-        </motion.div>
+        </div>
 
-        <motion.h1
-          {...fadeUp(0.08)}
+        <h1
           className="text-[clamp(3.5rem,10vw,8.5rem)] font-semibold leading-[0.88] tracking-[-0.025em] text-white mb-6"
           style={{ fontFamily: 'var(--font-heading)' }}
         >
           Pizzeria
           <br />
           <em className="text-[#C41E1E] not-italic italic">Loulou</em>
-        </motion.h1>
+        </h1>
 
         {/* Tags */}
-        <motion.div {...fadeUp(0.18)} className="flex flex-wrap gap-2 mb-6">
+        <div className="flex flex-wrap gap-2 mb-6">
           {tags.map((tag) => (
             <span
               key={tag}
@@ -102,19 +88,18 @@ export default function Hero() {
               {tag}
             </span>
           ))}
-        </motion.div>
+        </div>
 
-        <motion.p
-          {...fadeUp(0.26)}
+        <p
           className="text-white/65 text-sm sm:text-base max-w-md leading-relaxed mb-8"
           style={{ fontFamily: 'var(--font-body)' }}
         >
           L&apos;authenticité italienne au bord de la Méditerranée.
           Pâtes maison, ingrédients du terroir héraultais.
-        </motion.p>
+        </p>
 
         {/* CTAs */}
-        <motion.div {...fadeUp(0.34)} className="flex flex-col sm:flex-row gap-3 mb-10 sm:mb-14">
+        <div className="flex flex-col sm:flex-row gap-3 mb-10 sm:mb-14">
           <a
             href="#reservation"
             className="inline-flex items-center justify-center bg-[#C41E1E] hover:bg-[#A01818] text-white px-7 py-4 rounded-full text-sm font-semibold tracking-wide transition-colors duration-200 cursor-pointer shadow-lg shadow-black/30 min-h-[52px]"
@@ -132,13 +117,10 @@ export default function Hero() {
               <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
             </svg>
           </a>
-        </motion.div>
+        </div>
 
         {/* Stats */}
-        <motion.div
-          {...fadeUp(0.44)}
-          className="pt-6 border-t border-white/12 grid grid-cols-2 sm:grid-cols-4 gap-5 sm:gap-0"
-        >
+        <div className="pt-6 border-t border-white/12 grid grid-cols-2 sm:grid-cols-4 gap-5 sm:gap-0">
           {stats.map((s, i) => (
             <div
               key={s.label}
@@ -158,14 +140,12 @@ export default function Hero() {
               </p>
             </div>
           ))}
-        </motion.div>
+        </div>
       </div>
 
       {/* Scroll indicator */}
-      <motion.div
-        className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5"
-        animate={{ y: [0, 6, 0], opacity: [0.35, 0.65, 0.35] }}
-        transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
+      <div
+        className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 opacity-50"
         aria-hidden="true"
       >
         <span className="text-[9px] text-white/40 tracking-[0.3em] uppercase" style={{ fontFamily: 'var(--font-body)' }}>
@@ -174,7 +154,7 @@ export default function Hero() {
         <svg viewBox="0 0 24 24" className="w-4 h-4 fill-white/30">
           <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
         </svg>
-      </motion.div>
+      </div>
     </section>
   );
 }

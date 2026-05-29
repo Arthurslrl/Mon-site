@@ -1,8 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useRef, useState } from 'react';
-import { motion, useInView, AnimatePresence } from 'framer-motion';
+import { useState } from 'react';
 
 const photos = [
   {
@@ -38,19 +37,12 @@ const photos = [
 ];
 
 export default function Gallery() {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-60px' });
   const [lightbox, setLightbox] = useState<null | typeof photos[0]>(null);
 
   return (
-    <section id="galerie" aria-labelledby="gallery-title" className="py-16 sm:py-24 px-4 sm:px-6 bg-[#F9F3E5]" ref={ref}>
+    <section id="galerie" aria-labelledby="gallery-title" className="py-16 sm:py-24 px-4 sm:px-6 bg-[#F9F3E5]">
       <div className="max-w-6xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12"
-        >
+        <div className="text-center mb-12">
           <div className="inline-flex items-center gap-2.5 mb-5">
             <span className="block w-6 h-px bg-[#4A7040]" aria-hidden="true" />
             <p
@@ -74,15 +66,12 @@ export default function Gallery() {
           >
             Du four à bois à votre table — chaque pizza est un moment de pure authenticité.
           </p>
-        </motion.div>
+        </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 gap-2 sm:gap-3 auto-rows-[160px] sm:auto-rows-[200px]">
-          {photos.map((photo, i) => (
-            <motion.div
+          {photos.map((photo) => (
+            <div
               key={photo.src}
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={inView ? { opacity: 1, scale: 1 } : {}}
-              transition={{ duration: 0.5, delay: i * 0.08, ease: [0.0, 0.0, 0.2, 1] }}
               className={`relative overflow-hidden rounded-2xl cursor-pointer group ${photo.span}`}
               onClick={() => setLightbox(photo)}
             >
@@ -102,53 +91,43 @@ export default function Gallery() {
                   <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
                 </svg>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>
 
       {/* Lightbox */}
-      <AnimatePresence>
-        {lightbox && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center p-4 cursor-pointer"
-            onClick={() => setLightbox(null)}
-            role="dialog"
-            aria-modal="true"
-            aria-label={lightbox.alt}
+      {lightbox && (
+        <div
+          className="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center p-4 cursor-pointer"
+          onClick={() => setLightbox(null)}
+          role="dialog"
+          aria-modal="true"
+          aria-label={lightbox.alt}
+        >
+          <div
+            className="relative max-w-4xl max-h-[80vh] w-full aspect-video rounded-2xl overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
           >
-            <motion.div
-              initial={{ scale: 0.9 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0.9 }}
-              transition={{ duration: 0.2 }}
-              className="relative max-w-4xl max-h-[80vh] w-full aspect-video rounded-2xl overflow-hidden"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <Image
-                src={lightbox.src.replace('w=600&h=400', 'w=1200&h=800').replace('w=800&h=600', 'w=1200&h=800')}
-                alt={lightbox.alt}
-                fill
-                className="object-contain"
-                sizes="100vw"
-              />
-            </motion.div>
-            <button
-              onClick={() => setLightbox(null)}
-              className="absolute top-4 right-4 w-10 h-10 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center cursor-pointer transition-colors"
-              aria-label="Fermer"
-            >
-              <svg viewBox="0 0 24 24" className="w-5 h-5 fill-white" aria-hidden="true">
-                <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
-              </svg>
-            </button>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            <Image
+              src={lightbox.src.replace('w=600&h=400', 'w=1200&h=800').replace('w=800&h=600', 'w=1200&h=800')}
+              alt={lightbox.alt}
+              fill
+              className="object-contain"
+              sizes="100vw"
+            />
+          </div>
+          <button
+            onClick={() => setLightbox(null)}
+            className="absolute top-4 right-4 w-10 h-10 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center cursor-pointer transition-colors"
+            aria-label="Fermer"
+          >
+            <svg viewBox="0 0 24 24" className="w-5 h-5 fill-white" aria-hidden="true">
+              <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+            </svg>
+          </button>
+        </div>
+      )}
     </section>
   );
 }

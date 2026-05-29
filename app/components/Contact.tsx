@@ -1,8 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { motion, useInView } from 'framer-motion';
-import { useRef } from 'react';
 
 const timeSlots = {
   midi: ['11h30', '12h00', '12h30', '13h00', '13h30'],
@@ -28,8 +26,6 @@ export default function Contact() {
     guests: '2',
     message: '',
   });
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-80px' });
 
   const today = new Date().toISOString().split('T')[0];
 
@@ -43,7 +39,7 @@ export default function Contact() {
   const labelClass = 'block text-[11px] font-semibold text-[#1C0A00]/60 mb-2 uppercase tracking-[0.1em]';
 
   return (
-    <section id="contact" className="py-16 sm:py-24 px-4 sm:px-6 bg-[#FFFCF5]" ref={ref}>
+    <section id="contact" className="py-16 sm:py-24 px-4 sm:px-6 bg-[#FFFCF5]">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12 sm:mb-16">
           <div className="inline-flex items-center gap-2.5 mb-5">
@@ -67,12 +63,7 @@ export default function Contact() {
 
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-14">
           {/* Left: info */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, ease: [0.0, 0.0, 0.2, 1] }}
-            className="space-y-6"
-          >
+          <div className="space-y-6">
             {/* Address */}
             <div className="flex gap-4">
               <div className="w-11 h-11 rounded-xl bg-[#C41E1E]/8 flex items-center justify-center shrink-0 mt-0.5">
@@ -149,25 +140,17 @@ export default function Contact() {
                 En juillet–août, les tables se remplissent vite. Nous recommandons de réserver 2–3 jours à l&apos;avance pour être sûr d&apos;avoir une place en terrasse.
               </p>
             </div>
-          </motion.div>
+          </div>
 
           {/* Right: reservation form */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.15, ease: [0.0, 0.0, 0.2, 1] }}
-          >
+          <div>
             <div className="bg-white rounded-2xl p-6 sm:p-8 border border-[#C41E1E]/8 shadow-sm">
               <h3 className="text-2xl font-semibold text-[#1C0A00] mb-6 tracking-[-0.01em]" style={{ fontFamily: 'var(--font-heading)' }}>
                 Demande de réservation
               </h3>
 
               {sent ? (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.96 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className="text-center py-14"
-                >
+                <div className="text-center py-14">
                   <div className="w-14 h-14 bg-[#C41E1E]/8 rounded-full flex items-center justify-center mx-auto mb-4">
                     <svg viewBox="0 0 24 24" className="w-7 h-7 fill-[#C41E1E]" aria-hidden="true">
                       <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
@@ -182,7 +165,7 @@ export default function Contact() {
                   <p className="mt-4 text-xs text-[#7C4A1E]/50" style={{ fontFamily: 'var(--font-body)' }}>
                     En cas d&apos;urgence : <a href="tel:+33467013267" className="text-[#C41E1E] font-medium hover:underline">04 67 01 32 67</a>
                   </p>
-                </motion.div>
+                </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4" noValidate style={{ fontFamily: 'var(--font-body)' }}>
                   {/* Date + Time */}
@@ -306,7 +289,7 @@ export default function Contact() {
                 </form>
               )}
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>

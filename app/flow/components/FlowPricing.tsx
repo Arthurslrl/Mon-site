@@ -1,7 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { useState } from 'react';
 
 const plans = [
   {
@@ -85,8 +84,6 @@ function CrossIcon() {
 
 export default function FlowPricing() {
   const [annual, setAnnual] = useState(true);
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-60px' });
 
   return (
     <section id="pricing" className="py-28 px-6 relative">
@@ -95,13 +92,8 @@ export default function FlowPricing() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] rounded-full bg-violet-500/5 blur-3xl" />
       </div>
 
-      <div className="relative max-w-7xl mx-auto" ref={ref}>
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-12"
-        >
+      <div className="relative max-w-7xl mx-auto">
+        <div className="text-center mb-12">
           <p className="text-sm font-semibold text-indigo-400 uppercase tracking-widest mb-3">Pricing</p>
           <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-4 tracking-tight">
             Simple, transparent pricing
@@ -128,15 +120,12 @@ export default function FlowPricing() {
               </span>
             </button>
           </div>
-        </motion.div>
+        </div>
 
         <div className="grid md:grid-cols-3 gap-6">
-          {plans.map((plan, i) => (
-            <motion.div
+          {plans.map((plan) => (
+            <div
               key={plan.name}
-              initial={{ opacity: 0, y: 40 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: i * 0.1, ease: [0.0, 0.0, 0.2, 1] }}
               className={`relative rounded-2xl p-7 flex flex-col ${
                 plan.highlighted
                   ? 'bg-gradient-to-b from-indigo-500/15 to-violet-500/10 border border-indigo-500/40 shadow-2xl shadow-indigo-500/10'
@@ -189,18 +178,13 @@ export default function FlowPricing() {
                   </div>
                 ))}
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
 
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.6, delay: 0.5 }}
-          className="text-center text-sm text-slate-600 mt-8"
-        >
+        <p className="text-center text-sm text-slate-600 mt-8">
           All plans include a 14-day free trial · No credit card required · Cancel anytime
-        </motion.p>
+        </p>
       </div>
     </section>
   );

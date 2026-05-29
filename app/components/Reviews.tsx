@@ -1,8 +1,5 @@
 'use client';
 
-import { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
-
 const reviews = [
   {
     name: 'Marie T.',
@@ -117,19 +114,11 @@ function Stars({ rating }: { rating: number }) {
 }
 
 export default function Reviews() {
-  const ref = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-60px' });
-
   return (
-    <section id="avis" aria-labelledby="reviews-title" className="py-16 sm:py-24 px-4 sm:px-6 bg-[#EFE1BC]" ref={ref}>
+    <section id="avis" aria-labelledby="reviews-title" className="py-16 sm:py-24 px-4 sm:px-6 bg-[#EFE1BC]">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-14"
-        >
+        <div className="text-center mb-14">
           <div className="inline-flex items-center gap-2.5 mb-5">
             <span className="block w-6 h-px bg-[#4A7040]" aria-hidden="true" />
             <p
@@ -169,16 +158,13 @@ export default function Reviews() {
               </div>
             ))}
           </div>
-        </motion.div>
+        </div>
 
         {/* Reviews grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {reviews.map((review, i) => (
-            <motion.article
+          {reviews.map((review) => (
+            <article
               key={review.name}
-              initial={{ opacity: 0, y: 30 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: i * 0.08, ease: [0.0, 0.0, 0.2, 1] }}
               className="bg-white rounded-2xl p-6 border border-[#C41E1E]/8 hover:border-[#C41E1E]/20 hover:shadow-md hover:shadow-[#450A0A]/6 transition-all duration-200"
             >
               {/* Header */}
@@ -210,17 +196,12 @@ export default function Reviews() {
               <blockquote className="mt-3 text-sm text-[#7C4A1E] leading-relaxed">
                 &ldquo;{review.text}&rdquo;
               </blockquote>
-            </motion.article>
+            </article>
           ))}
         </div>
 
         {/* CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.6 }}
-          className="text-center mt-12 flex flex-col sm:flex-row gap-3 justify-center"
-        >
+        <div className="text-center mt-12 flex flex-col sm:flex-row gap-3 justify-center">
           <a
             href="https://www.google.com/search?q=Pizzeria+Loulou+Valras-Plage"
             target="_blank"
@@ -243,7 +224,7 @@ export default function Reviews() {
               <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
             </svg>
           </a>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

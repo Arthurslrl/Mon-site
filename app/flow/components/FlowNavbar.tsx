@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 
 const navLinks = [
   { href: '#features', label: 'Features' },
@@ -65,29 +64,21 @@ export default function FlowNavbar() {
         </button>
       </nav>
 
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.2 }}
-            className="md:hidden overflow-hidden border-t border-white/10"
-          >
-            <div className="px-6 py-4 flex flex-col gap-3">
-              {navLinks.map(l => (
-                <a key={l.href} href={l.href} onClick={() => setOpen(false)}
-                  className="py-2 text-slate-300 hover:text-white transition-colors cursor-pointer text-sm">
-                  {l.label}
-                </a>
-              ))}
-              <a href="#" className="mt-2 text-center bg-gradient-to-r from-indigo-500 to-violet-500 text-white py-3 rounded-xl font-semibold text-sm cursor-pointer">
-                Get started free
+      {open && (
+        <div className="md:hidden overflow-hidden border-t border-white/10">
+          <div className="px-6 py-4 flex flex-col gap-3">
+            {navLinks.map(l => (
+              <a key={l.href} href={l.href} onClick={() => setOpen(false)}
+                className="py-2 text-slate-300 hover:text-white transition-colors cursor-pointer text-sm">
+                {l.label}
               </a>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            ))}
+            <a href="#" className="mt-2 text-center bg-gradient-to-r from-indigo-500 to-violet-500 text-white py-3 rounded-xl font-semibold text-sm cursor-pointer">
+              Get started free
+            </a>
+          </div>
+        </div>
+      )}
     </header>
   );
 }
