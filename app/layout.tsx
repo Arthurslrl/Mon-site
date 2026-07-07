@@ -15,180 +15,97 @@ const karla = Karla({
   display: "swap",
 });
 
-const siteUrl = "https://pizzeria-loulou.fr";
+const siteUrl = "https://pizza-sergio-valras.fr";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Pizzeria Loulou – Pizza artisanale à Valras-Plage",
-    template: "%s | Pizzeria Loulou Valras-Plage",
+    default: "Pizza Sergio – Pizzas livrées à Valras-Plage",
+    template: "%s | Pizza Sergio Valras-Plage",
   },
   description:
-    "Pizzeria artisanale à Valras-Plage depuis 1985. Pâtes maison, four à bois, ingrédients frais du terroir héraultais. Note 4.5/5 sur 382 avis. Réservation au 04 67 XX XX XX.",
+    "Pizza Sergio à Valras-Plage – Pizzas artisanales à pâte fine et croustillante, ingrédients frais du jour. Livraison soir toute l'année, midi et soir en juillet-août. 5/5 sur TripAdvisor. Commandez au 04 67 32 32 64.",
   keywords: [
-    "pizzeria Valras-Plage",
-    "pizza Valras",
-    "restaurant pizzeria Hérault",
-    "pizza four à bois Valras-Plage",
+    "pizza Sergio Valras-Plage",
+    "livraison pizza Valras",
+    "pizza à emporter Valras-Plage",
+    "pizzeria Valras Hérault",
+    "pizza jardins de Sérignan",
     "pizza artisanale Valras",
-    "meilleure pizza Valras-Plage",
-    "pizzeria Loulou",
-    "restaurant italien Valras-Plage",
-    "pizza à emporter Valras",
-    "pizzeria 34350",
+    "meilleure pizza Valras",
+    "pizza 34350",
+    "livraison pizza Sérignan",
+    "pizza pâte fine Valras",
   ],
-  authors: [{ name: "Pizzeria Loulou" }],
-  creator: "Pizzeria Loulou",
-  publisher: "Pizzeria Loulou",
-  alternates: {
-    canonical: siteUrl,
-  },
+  authors: [{ name: "Pizza Sergio" }],
+  creator: "Pizza Sergio",
+  publisher: "Pizza Sergio",
+  alternates: { canonical: siteUrl },
   openGraph: {
     type: "website",
     locale: "fr_FR",
     url: siteUrl,
-    siteName: "Pizzeria Loulou",
-    title: "Pizzeria Loulou – Pizza artisanale à Valras-Plage depuis 1985",
+    siteName: "Pizza Sergio",
+    title: "Pizza Sergio – Pizzas artisanales livrées à Valras-Plage",
     description:
-      "L'authenticité italienne au bord de la Méditerranée. Four à bois, pâtes maison, ingrédients frais. 4.5/5 sur 382 avis Google.",
-    images: [
-      {
-        url: "/og-image.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Pizzeria Loulou – Pizza artisanale four à bois à Valras-Plage",
-      },
-    ],
+      "Pâte fine et croustillante, ingrédients frais chaque jour. Livraison à Valras-Plage et jardins de Sérignan. Note 5/5 sur TripAdvisor.",
+    images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: "Pizza Sergio – Valras-Plage" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Pizzeria Loulou – Pizza artisanale à Valras-Plage",
-    description:
-      "L'authenticité italienne au bord de la Méditerranée. Four à bois, pâtes maison, 4.5/5 sur Google.",
+    title: "Pizza Sergio – Pizzas livrées à Valras-Plage",
+    description: "Pâte fine croustillante, ingrédients frais. Livraison soir toute l'année. 5/5 TripAdvisor.",
     images: ["/og-image.jpg"],
   },
   robots: {
     index: true,
     follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
-  verification: {
-    google: "your-google-verification-token",
+    googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1 },
   },
 };
 
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Restaurant",
-  name: "Pizzeria Loulou",
-  image: `${siteUrl}/og-image.jpg`,
-  description:
-    "Pizzeria artisanale à Valras-Plage depuis 1985. Four à bois, pâtes maison, ingrédients frais du terroir.",
+  name: "Pizza Sergio",
+  description: "Pizzas artisanales à pâte fine et croustillante, ingrédients frais du jour. Livraison à Valras-Plage et jardins de Sérignan.",
   url: siteUrl,
-  telephone: "+33467000000",
+  telephone: "+33467323264",
   servesCuisine: ["Italian", "Pizza"],
-  priceRange: "€€",
+  priceRange: "€",
   currenciesAccepted: "EUR",
   paymentAccepted: "Cash, Credit Card",
   address: {
     "@type": "PostalAddress",
-    streetAddress: "35 Avenue Charles Cauquil",
+    streetAddress: "2 Boulevard Gambetta",
     addressLocality: "Valras-Plage",
     postalCode: "34350",
     addressRegion: "Occitanie",
     addressCountry: "FR",
   },
-  geo: {
-    "@type": "GeoCoordinates",
-    latitude: 43.2389,
-    longitude: 3.2903,
-  },
-  hasMap: "https://maps.google.com/?q=35+Avenue+Charles+Cauquil+Valras-Plage",
+  geo: { "@type": "GeoCoordinates", latitude: 43.2395, longitude: 3.2921 },
   openingHoursSpecification: [
-    {
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: ["Tuesday", "Wednesday", "Thursday"],
-      opens: "11:30",
-      closes: "14:00",
-    },
-    {
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: ["Tuesday", "Wednesday", "Thursday"],
-      opens: "18:30",
-      closes: "22:00",
-    },
-    {
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: ["Friday"],
-      opens: "11:30",
-      closes: "14:00",
-    },
-    {
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: ["Friday"],
-      opens: "18:30",
-      closes: "23:00",
-    },
-    {
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: ["Saturday"],
-      opens: "11:30",
-      closes: "23:00",
-    },
-    {
-      "@type": "OpeningHoursSpecification",
-      dayOfWeek: ["Sunday"],
-      opens: "11:30",
-      closes: "22:30",
-    },
+    { "@type": "OpeningHoursSpecification", dayOfWeek: ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"], opens: "11:00", closes: "13:30" },
+    { "@type": "OpeningHoursSpecification", dayOfWeek: ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"], opens: "18:00", closes: "21:00" },
   ],
   aggregateRating: {
     "@type": "AggregateRating",
-    ratingValue: "4.5",
+    ratingValue: "5",
     bestRating: "5",
     worstRating: "1",
-    reviewCount: "382",
+    reviewCount: "30",
   },
-  review: [
-    {
-      "@type": "Review",
-      reviewRating: { "@type": "Rating", ratingValue: "5" },
-      author: { "@type": "Person", name: "Marie T." },
-      reviewBody:
-        "Excellente pâte (sûrement de la farine 00), ingrédients de qualité, cuisson parfaite. Vraiment dans le style italien authentique.",
-    },
-    {
-      "@type": "Review",
-      reviewRating: { "@type": "Rating", ratingValue: "5" },
-      author: { "@type": "Person", name: "Laurent B." },
-      reviewBody:
-        "Toujours ravis à chaque passage. Les pizzas sont top, service rapide et le personnel très sympathique.",
-    },
-  ],
-  menu: `${siteUrl}/#menu`,
-  acceptsReservations: "True",
-  foundingDate: "1985",
+  sameAs: ["https://www.facebook.com/PIZZA-Sergio-737785756303587"],
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{ children: React.ReactNode }>) {
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="fr" className={`${playfair.variable} ${karla.variable} antialiased`}>
       <head>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-        />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </head>
       <body
-        className="min-h-screen bg-[#FEF2F2] text-[#450A0A]"
+        className="min-h-screen bg-[#FFFBF5] text-[#1C0800]"
         style={{ fontFamily: "var(--font-body), Arial, sans-serif" }}
       >
         {children}

@@ -1,114 +1,139 @@
 'use client';
 
+import Image from 'next/image';
 import { motion } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react';
+import { useInView } from 'framer-motion';
 
-function fadeUp(delay: number) {
+function CountUp({ to, suffix = '', decimals = 0 }: { to: number; suffix?: string; decimals?: number }) {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: '-40px' });
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    if (!inView) return;
+    const duration = 1500;
+    const startTime = performance.now();
+    const raf = requestAnimationFrame(function tick(now) {
+      const progress = Math.min((now - startTime) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setCount(parseFloat((eased * to).toFixed(decimals)));
+      if (progress < 1) requestAnimationFrame(tick);
+    });
+    return () => cancelAnimationFrame(raf);
+  }, [inView, to, decimals]);
+  return <span ref={ref}>{decimals > 0 ? count.toFixed(decimals) : Math.floor(count)}{suffix}</span>;
+}
+
+function fade(delay: number) {
   return {
-    initial: { opacity: 0, y: 30 },
+    initial: { opacity: 0, y: 28 },
     animate: { opacity: 1, y: 0 },
-    transition: { delay, duration: 0.6, ease: [0.0, 0.0, 0.2, 1] as const },
+    transition: { delay, duration: 0.65, ease: [0.0, 0.0, 0.2, 1] as const },
   } as const;
 }
 
 export default function Hero() {
   return (
-    <section
-      id="hero"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#FEF2F2]"
-    >
-      {/* Background gradient blobs */}
-      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        <div className="absolute top-[-10%] right-[-10%] w-[600px] h-[600px] rounded-full bg-[#DC2626]/10 blur-3xl" />
-        <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] rounded-full bg-[#CA8A04]/10 blur-3xl" />
-      </div>
+    <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Background image */}
+      <Image
+        src="https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=1800&q=85&auto=format&fit=crop"
+        alt="Pizza artisanale croustillante"
+        fill
+        priority
+        className="object-cover"
+        sizes="100vw"
+      />
+      {/* Gradient overlays */}
+      <div className="absolute inset-0 bg-gradient-to-t from-[#1C0800]/90 via-[#1C0800]/45 to-[#1C0800]/20" />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#1C0800]/40 via-transparent to-transparent" />
 
-      {/* Decorative pizza wheel */}
+      {/* Floating badge */}
       <motion.div
-        className="absolute right-[4%] top-1/2 -translate-y-1/2 opacity-[0.07] hidden lg:block"
-        animate={{ rotate: 360 }}
-        transition={{ duration: 60, repeat: Infinity, ease: 'linear' }}
-        aria-hidden="true"
+        initial={{ opacity: 0, scale: 0.85 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ delay: 0.2, duration: 0.5, ease: 'backOut' }}
+        className="absolute top-28 right-6 md:right-12 bg-[#CC1F1F] text-white rounded-2xl px-5 py-3 text-center shadow-xl shadow-[#CC1F1F]/30"
       >
-        <svg viewBox="0 0 300 300" className="w-[520px] h-[520px]">
-          <circle cx="150" cy="150" r="140" fill="#DC2626" />
-          <circle cx="150" cy="150" r="110" fill="#CA8A04" />
-          <circle cx="150" cy="150" r="80" fill="#F87171" />
-          <line x1="150" y1="10" x2="150" y2="290" stroke="#FEF2F2" strokeWidth="3" />
-          <line x1="10" y1="150" x2="290" y2="150" stroke="#FEF2F2" strokeWidth="3" />
-          <line x1="47" y1="47" x2="253" y2="253" stroke="#FEF2F2" strokeWidth="3" />
-          <line x1="253" y1="47" x2="47" y2="253" stroke="#FEF2F2" strokeWidth="3" />
-          <circle cx="110" cy="105" r="14" fill="#450A0A" opacity="0.5" />
-          <circle cx="185" cy="120" r="10" fill="#450A0A" opacity="0.5" />
-          <circle cx="130" cy="185" r="12" fill="#450A0A" opacity="0.5" />
-          <circle cx="192" cy="178" r="9" fill="#450A0A" opacity="0.5" />
-          <circle cx="152" cy="145" r="8" fill="#450A0A" opacity="0.5" />
-        </svg>
+        <div className="text-2xl font-bold" style={{ fontFamily: 'var(--font-heading)' }}>5/5</div>
+        <div className="text-xs text-white/80 mt-0.5">TripAdvisor · 30 avis</div>
+        <div className="flex justify-center gap-0.5 mt-1">
+          {[...Array(5)].map((_, i) => (
+            <svg key={i} viewBox="0 0 24 24" className="w-3.5 h-3.5 fill-[#D97706]" aria-hidden="true">
+              <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+            </svg>
+          ))}
+        </div>
       </motion.div>
-
-      {/* Floating dots */}
-      <motion.div
-        className="absolute top-[22%] left-[8%] w-3 h-3 rounded-full bg-[#CA8A04] hidden md:block"
-        animate={{ y: [-8, 8, -8] }}
-        transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-        aria-hidden="true"
-      />
-      <motion.div
-        className="absolute top-[62%] left-[12%] w-5 h-5 rounded-full bg-[#DC2626]/25 hidden md:block"
-        animate={{ y: [8, -8, 8] }}
-        transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
-        aria-hidden="true"
-      />
 
       {/* Content */}
       <div className="relative z-10 max-w-6xl mx-auto px-6 pt-28 pb-20 text-center">
-        <motion.p {...fadeUp(0)} className="inline-flex items-center gap-2 bg-[#DC2626]/10 text-[#DC2626] text-sm font-semibold px-4 py-2 rounded-full mb-6 border border-[#DC2626]/20">
-          <span className="w-2 h-2 rounded-full bg-[#DC2626] inline-block" />
-          Valras-Plage · Depuis 1985
+        <motion.p {...fade(0)} className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm text-white text-sm font-semibold px-4 py-2 rounded-full mb-6 border border-white/20">
+          <span className="w-2 h-2 rounded-full bg-[#16A34A] inline-block" />
+          Valras-Plage · Livraison à domicile
         </motion.p>
 
         <motion.h1
-          {...fadeUp(0.12)}
-          className="text-6xl md:text-8xl lg:text-9xl font-bold text-[#450A0A] leading-none tracking-tight mb-4"
+          {...fade(0.1)}
+          className="text-6xl md:text-8xl lg:text-9xl font-bold text-white leading-none tracking-tight mb-4"
           style={{ fontFamily: 'var(--font-heading)' }}
         >
-          Pizzeria
+          Pizza
           <br />
-          <span className="text-[#DC2626]">Loulou</span>
+          <span className="text-[#F87171]">Sergio</span>
         </motion.h1>
 
-        <motion.p {...fadeUp(0.24)} className="text-lg md:text-xl text-[#78350F] max-w-xl mx-auto mt-6 mb-10 leading-relaxed">
-          L&apos;authenticité italienne au bord de la Méditerranée.
-          Pâtes maison, four à bois, ingrédients du terroir.
+        <motion.p {...fade(0.22)} className="text-lg md:text-xl text-white/80 max-w-lg mx-auto mt-6 mb-10 leading-relaxed">
+          Pâte fine et croustillante, ingrédients frais chaque jour.
+          Livraison soir toute l&apos;année à Valras-Plage et jardins de Sérignan.
         </motion.p>
 
-        <motion.div {...fadeUp(0.36)} className="flex flex-col sm:flex-row gap-4 justify-center">
+        <motion.div {...fade(0.34)} className="flex flex-col sm:flex-row gap-4 justify-center">
           <a
-            href="#menu"
-            className="bg-[#DC2626] hover:bg-[#B91C1C] text-white px-8 py-4 rounded-full text-base font-semibold transition-colors duration-200 cursor-pointer shadow-lg shadow-[#DC2626]/25"
+            href="tel:+33467323264"
+            className="relative bg-[#CC1F1F] hover:bg-[#A01818] text-white px-8 py-4 rounded-full text-base font-semibold transition-colors duration-200 cursor-pointer shadow-lg shadow-[#CC1F1F]/30 flex items-center justify-center gap-2"
           >
-            Découvrir la carte
+            <motion.span
+              className="absolute inset-0 rounded-full border-2 border-[#CC1F1F]"
+              animate={{ scale: [1, 1.3, 1], opacity: [0.6, 0, 0.6] }}
+              transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
+              aria-hidden="true"
+            />
+            <svg viewBox="0 0 24 24" className="w-4 h-4 fill-current" aria-hidden="true">
+              <path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/>
+            </svg>
+            04 67 32 32 64
           </a>
           <a
-            href="#contact"
-            className="border-2 border-[#DC2626] text-[#DC2626] hover:bg-[#DC2626] hover:text-white px-8 py-4 rounded-full text-base font-semibold transition-all duration-200 cursor-pointer"
+            href="#menu"
+            className="border-2 border-white text-white hover:bg-white hover:text-[#1C0800] px-8 py-4 rounded-full text-base font-semibold transition-all duration-200 cursor-pointer flex items-center justify-center gap-2"
           >
-            Nous trouver
+            Voir la carte
+            <motion.svg
+              viewBox="0 0 24 24"
+              className="w-4 h-4 fill-current"
+              animate={{ x: [0, 4, 0] }}
+              transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
+              aria-hidden="true"
+            >
+              <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+            </motion.svg>
           </a>
         </motion.div>
 
         {/* Stats */}
-        <motion.div {...fadeUp(0.48)} className="flex flex-wrap justify-center gap-8 mt-16 pt-10 border-t border-[#DC2626]/15">
+        <motion.div {...fade(0.46)} className="flex flex-wrap justify-center gap-8 mt-16 pt-10 border-t border-white/15">
           {[
-            { value: '40+', label: "ans d'expérience" },
-            { value: '30+', label: 'pizzas au menu' },
-            { value: '100%', label: 'produits frais' },
-            { value: 'Four', label: 'à bois artisanal' },
+            { to: 30, suffix: '+', label: 'avis TripAdvisor 5/5' },
+            { to: 815, label: 'fans sur Facebook' },
+            { to: 100, suffix: '%', label: 'ingrédients frais' },
+            { to: 2, suffix: ' zones', label: 'de livraison' },
           ].map((stat) => (
             <div key={stat.label} className="text-center">
-              <p className="text-3xl font-bold text-[#DC2626]" style={{ fontFamily: 'var(--font-heading)' }}>
-                {stat.value}
+              <p className="text-3xl font-bold text-white" style={{ fontFamily: 'var(--font-heading)' }}>
+                <CountUp to={stat.to} suffix={stat.suffix ?? ''} />
               </p>
-              <p className="text-sm text-[#78350F] mt-1">{stat.label}</p>
+              <p className="text-sm text-white/60 mt-1">{stat.label}</p>
             </div>
           ))}
         </motion.div>
@@ -116,7 +141,7 @@ export default function Hero() {
 
       {/* Scroll indicator */}
       <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-[#78350F]/60"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-white/50"
         animate={{ y: [0, 6, 0] }}
         transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
         aria-hidden="true"
