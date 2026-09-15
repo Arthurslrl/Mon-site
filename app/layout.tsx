@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     template: "%s | Pizzeria Loulou Valras-Plage",
   },
   description:
-    "Pizzeria artisanale à Valras-Plage depuis 1985. Pâtes maison, four à bois, ingrédients frais du terroir héraultais. Note 4.5/5 sur 382 avis. Réservation au 04 67 01 32 67.",
+    "Pizzeria artisanale à Valras-Plage depuis 1985. Pâtes maison, four à bois, ingrédients frais du terroir héraultais. Réservation au 04 67 01 32 67.",
   keywords: [
     "pizzeria Valras-Plage",
     "pizza Valras",
@@ -50,13 +50,13 @@ export const metadata: Metadata = {
     siteName: "Pizzeria Loulou",
     title: "Pizzeria Loulou – Pizza artisanale à Valras-Plage depuis 1985",
     description:
-      "L'authenticité italienne au bord de la Méditerranée. Four à bois, pâtes maison, ingrédients frais. 4.5/5 sur 382 avis Google.",
+      "L'authenticité italienne au bord de la Méditerranée. Four à bois, pâtes maison, ingrédients frais du terroir héraultais.",
   },
   twitter: {
     card: "summary_large_image",
     title: "Pizzeria Loulou – Pizza artisanale à Valras-Plage",
     description:
-      "L'authenticité italienne au bord de la Méditerranée. Four à bois, pâtes maison, 4.5/5 sur Google.",
+      "L'authenticité italienne au bord de la Méditerranée. Four à bois, pâtes maison, ingrédients frais.",
   },
   robots: {
     index: true,
@@ -137,29 +137,6 @@ const jsonLd = {
       dayOfWeek: ["Sunday"],
       opens: "11:30",
       closes: "22:30",
-    },
-  ],
-  aggregateRating: {
-    "@type": "AggregateRating",
-    ratingValue: "4.5",
-    bestRating: "5",
-    worstRating: "1",
-    reviewCount: "382",
-  },
-  review: [
-    {
-      "@type": "Review",
-      reviewRating: { "@type": "Rating", ratingValue: "5" },
-      author: { "@type": "Person", name: "Marie T." },
-      reviewBody:
-        "Excellente pâte (sûrement de la farine 00), ingrédients de qualité, cuisson parfaite. Vraiment dans le style italien authentique.",
-    },
-    {
-      "@type": "Review",
-      reviewRating: { "@type": "Rating", ratingValue: "5" },
-      author: { "@type": "Person", name: "Laurent B." },
-      reviewBody:
-        "Toujours ravis à chaque passage. Les pizzas sont top, service rapide et le personnel très sympathique.",
     },
   ],
   menu: `${siteUrl}/#menu`,
