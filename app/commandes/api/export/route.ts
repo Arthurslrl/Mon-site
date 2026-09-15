@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { listCommandes } from "@/lib/repo/commandes";
-import { methodePaiementLabel, prioriteLabel, statutLabel } from "@/lib/types";
+import { categorieLabel, methodePaiementLabel, statutLabel } from "@/lib/types";
 
 function csvEscape(value: string | number): string {
   const str = String(value);
@@ -15,8 +15,8 @@ export async function GET(request: NextRequest) {
 
   const { rows } = listCommandes({
     statut: searchParams.get("statut") || undefined,
-    clientId: searchParams.get("clientId") ? Number(searchParams.get("clientId")) : undefined,
-    methodePaiement: searchParams.get("methodePaiement") || undefined,
+    enseigne: searchParams.get("enseigne") || undefined,
+    categorie: searchParams.get("categorie") || undefined,
     search: searchParams.get("q") || undefined,
     dateFrom: searchParams.get("from") || undefined,
     dateTo: searchParams.get("to") || undefined,
@@ -24,19 +24,31 @@ export async function GET(request: NextRequest) {
     pageSize: 100000,
   });
 
-  const header = ["Reference", "Client", "Statut", "Priorite", "Paiement", "Total EUR", "Creee le"];
+  const header = [
+    "Reference",
+    "Enseigne",
+    "Categorie",
+    "Statut",
+    "Paiement",
+    "N commande",
+    "N suivi",
+    "Total EUR",
+    "Date achat",
+  ];
   const lines = [header.map(csvEscape).join(";")];
 
   for (const r of rows) {
     lines.push(
       [
         r.reference,
-        r.client_nom,
+        r.enseigne,
+        categorieLabel(r.categorie),
         statutLabel(r.statut),
-        prioriteLabel(r.priorite),
         methodePaiementLabel(r.methode_paiement),
+        r.numero_commande ?? "",
+        r.numero_suivi ?? "",
         r.total.toFixed(2),
-        r.created_at,
+        r.date_commande,
       ]
         .map(csvEscape)
         .join(";")
@@ -48,7 +60,7 @@ export async function GET(request: NextRequest) {
   return new NextResponse(csv, {
     headers: {
       "Content-Type": "text/csv; charset=utf-8",
-      "Content-Disposition": `attachment; filename="commandes-export.csv"`,
+      "Content-Disposition": `attachment; filename="mes-commandes.csv"`,
     },
   });
 }

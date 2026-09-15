@@ -11,15 +11,14 @@ import {
   SESSION_MAX_AGE_SECONDS,
   createSessionToken,
 } from "@/lib/auth/session";
-import * as clientsRepo from "@/lib/repo/clients";
 import * as commandesRepo from "@/lib/repo/commandes";
 import type { CommandeItemInput } from "@/lib/repo/commandes";
 import {
+  CATEGORIE_VALUES,
   METHODE_PAIEMENT_VALUES,
-  PRIORITE_VALUES,
   STATUT_VALUES,
+  type Categorie,
   type MethodePaiement,
-  type Priorite,
   type Statut,
 } from "@/lib/types";
 
@@ -64,56 +63,19 @@ export async function logoutAction(): Promise<void> {
   redirect("/commandes/login");
 }
 
-const clientSchema = z.object({
-  nom: z.string().trim().min(1, "Le nom est requis"),
-  email: z.string().trim().email().optional().or(z.literal("")),
-  telephone: z.string().trim().optional(),
-  adresse: z.string().trim().optional(),
-  notes: z.string().trim().optional(),
-});
-
-function parseClientForm(formData: FormData): clientsRepo.ClientInput {
-  const parsed = clientSchema.parse({
-    nom: formData.get("nom"),
-    email: formData.get("email"),
-    telephone: formData.get("telephone"),
-    adresse: formData.get("adresse"),
-    notes: formData.get("notes"),
-  });
-  return {
-    nom: parsed.nom,
-    email: parsed.email || null,
-    telephone: parsed.telephone || null,
-    adresse: parsed.adresse || null,
-    notes: parsed.notes || null,
-  };
-}
-
-export async function createClientAction(formData: FormData): Promise<void> {
-  const input = parseClientForm(formData);
-  const id = clientsRepo.createClient(input);
-  revalidatePath("/commandes/clients");
-  redirect(`/commandes/clients/${id}`);
-}
-
-export async function updateClientAction(id: number, formData: FormData): Promise<void> {
-  const input = parseClientForm(formData);
-  clientsRepo.updateClient(id, input);
-  revalidatePath("/commandes/clients");
-  revalidatePath(`/commandes/clients/${id}`);
-  redirect(`/commandes/clients/${id}`);
-}
-
-export async function deleteClientAction(id: number): Promise<void> {
-  clientsRepo.deleteClient(id);
-  revalidatePath("/commandes/clients");
-  redirect("/commandes/clients");
-}
+const optionalCategorie = z
+  .union([z.enum(CATEGORIE_VALUES), z.literal("")])
+  .optional()
+  .transform((v) => (v ? (v as Categorie) : null));
 
 const commandeMetaSchema = z.object({
-  clientId: z.coerce.number().int().positive(),
-  priorite: z.enum(PRIORITE_VALUES),
+  enseigne: z.string().trim().min(1, "L'enseigne est requise"),
+  categorie: optionalCategorie,
   methodePaiement: z.enum(METHODE_PAIEMENT_VALUES),
+  numeroCommande: z.string().trim().optional(),
+  numeroSuivi: z.string().trim().optional(),
+  lienSuivi: z.string().trim().optional(),
+  dateCommande: z.string().trim().min(1, "La date est requise"),
   notes: z.string().trim().optional(),
 });
 
@@ -139,10 +101,14 @@ function parseItems(formData: FormData): CommandeItemInput[] {
 
 export async function createCommandeAction(formData: FormData): Promise<void> {
   const meta = createCommandeSchema.parse({
-    clientId: formData.get("clientId"),
+    enseigne: formData.get("enseigne"),
+    categorie: formData.get("categorie"),
     statut: formData.get("statut"),
-    priorite: formData.get("priorite"),
     methodePaiement: formData.get("methodePaiement"),
+    numeroCommande: formData.get("numeroCommande"),
+    numeroSuivi: formData.get("numeroSuivi"),
+    lienSuivi: formData.get("lienSuivi"),
+    dateCommande: formData.get("dateCommande"),
     notes: formData.get("notes"),
   });
   const items = parseItems(formData);
@@ -151,25 +117,32 @@ export async function createCommandeAction(formData: FormData): Promise<void> {
   }
 
   const id = commandesRepo.createCommande({
-    clientId: meta.clientId,
+    enseigne: meta.enseigne,
+    categorie: meta.categorie,
     statut: meta.statut as Statut,
-    priorite: meta.priorite as Priorite,
     methodePaiement: meta.methodePaiement as MethodePaiement,
+    numeroCommande: meta.numeroCommande || null,
+    numeroSuivi: meta.numeroSuivi || null,
+    lienSuivi: meta.lienSuivi || null,
+    dateCommande: meta.dateCommande,
     notes: meta.notes || null,
     items,
   });
 
   revalidatePath("/commandes/liste");
   revalidatePath("/commandes");
-  revalidatePath(`/commandes/clients/${meta.clientId}`);
   redirect(`/commandes/liste/${id}`);
 }
 
 export async function updateCommandeAction(id: number, formData: FormData): Promise<void> {
   const meta = commandeMetaSchema.parse({
-    clientId: formData.get("clientId"),
-    priorite: formData.get("priorite"),
+    enseigne: formData.get("enseigne"),
+    categorie: formData.get("categorie"),
     methodePaiement: formData.get("methodePaiement"),
+    numeroCommande: formData.get("numeroCommande"),
+    numeroSuivi: formData.get("numeroSuivi"),
+    lienSuivi: formData.get("lienSuivi"),
+    dateCommande: formData.get("dateCommande"),
     notes: formData.get("notes"),
   });
   const items = parseItems(formData);
@@ -178,9 +151,13 @@ export async function updateCommandeAction(id: number, formData: FormData): Prom
   }
 
   commandesRepo.updateCommande(id, {
-    clientId: meta.clientId,
-    priorite: meta.priorite as Priorite,
+    enseigne: meta.enseigne,
+    categorie: meta.categorie,
     methodePaiement: meta.methodePaiement as MethodePaiement,
+    numeroCommande: meta.numeroCommande || null,
+    numeroSuivi: meta.numeroSuivi || null,
+    lienSuivi: meta.lienSuivi || null,
+    dateCommande: meta.dateCommande,
     notes: meta.notes || null,
     items,
   });
@@ -212,4 +189,78 @@ export async function deleteCommandeAction(id: number): Promise<void> {
   revalidatePath("/commandes/liste");
   revalidatePath("/commandes");
   redirect("/commandes/liste");
+}
+
+export interface ImportState {
+  imported?: number;
+  errors?: string[];
+}
+
+export async function importCommandesAction(
+  _prev: ImportState,
+  formData: FormData
+): Promise<ImportState> {
+  const csv = String(formData.get("csv") ?? "").trim();
+  if (!csv) {
+    return { imported: 0, errors: ["Colle du contenu CSV avant d'importer."] };
+  }
+
+  const lines = csv.split(/\r?\n/).filter((line) => line.trim().length > 0);
+  if (lines.length === 0) {
+    return { imported: 0, errors: ["Aucune ligne détectée."] };
+  }
+
+  const header = lines[0].split(";").map((h) => h.trim().toLowerCase());
+  const hasHeader = header[0] === "enseigne" && header.includes("montant");
+  const rows = hasHeader ? lines.slice(1) : lines;
+  const lineOffset = hasHeader ? 2 : 1;
+
+  const errors: string[] = [];
+  let imported = 0;
+
+  const statutSet = new Set(STATUT_VALUES as readonly string[]);
+  const categorieSet = new Set(CATEGORIE_VALUES as readonly string[]);
+
+  rows.forEach((line, idx) => {
+    const lineNumber = idx + lineOffset;
+    const cols = line.split(";").map((c) => c.trim());
+    const [enseigne, date, montantRaw, statutRaw, numeroCommande, numeroSuivi, lienSuivi, categorieRaw, notes] =
+      cols;
+
+    if (!enseigne) {
+      errors.push(`Ligne ${lineNumber} : enseigne manquante.`);
+      return;
+    }
+    const montant = Number((montantRaw ?? "").replace(",", "."));
+    if (!Number.isFinite(montant) || montant < 0) {
+      errors.push(`Ligne ${lineNumber} : montant invalide ("${montantRaw ?? ""}").`);
+      return;
+    }
+    const statut = statutSet.has(statutRaw) ? (statutRaw as Statut) : "commandee";
+    const categorie = categorieSet.has(categorieRaw) ? (categorieRaw as Categorie) : null;
+    const dateCommande = /^\d{4}-\d{2}-\d{2}$/.test(date ?? "")
+      ? date
+      : new Date().toISOString().slice(0, 10);
+
+    commandesRepo.createCommande({
+      enseigne,
+      categorie,
+      statut,
+      methodePaiement: "carte",
+      numeroCommande: numeroCommande || null,
+      numeroSuivi: numeroSuivi || null,
+      lienSuivi: lienSuivi || null,
+      dateCommande,
+      notes: notes || null,
+      items: [{ designation: `Achat ${enseigne}`, quantite: 1, prix_unitaire: montant }],
+    });
+    imported++;
+  });
+
+  if (imported > 0) {
+    revalidatePath("/commandes/liste");
+    revalidatePath("/commandes");
+  }
+
+  return { imported, errors };
 }

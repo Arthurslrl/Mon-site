@@ -1,7 +1,6 @@
 import { notFound } from "next/navigation";
 import CommandeForm from "@/components/commandes/CommandeForm";
-import { listClients } from "@/lib/repo/clients";
-import { getCommande } from "@/lib/repo/commandes";
+import { getCommande, listDistinctEnseignes } from "@/lib/repo/commandes";
 import { updateCommandeAction } from "../../../../actions";
 
 export default async function ModifierCommandePage({
@@ -13,19 +12,23 @@ export default async function ModifierCommandePage({
   const commande = getCommande(Number(id));
   if (!commande) notFound();
 
-  const clients = listClients();
+  const enseignesConnues = listDistinctEnseignes();
 
   return (
     <div className="max-w-2xl space-y-6">
       <h1 className="text-2xl font-bold text-slate-900">Modifier {commande.reference}</h1>
       <div className="rounded-2xl border border-slate-200 bg-white p-6">
         <CommandeForm
-          clients={clients}
+          enseignesConnues={enseignesConnues}
           action={updateCommandeAction.bind(null, commande.id)}
           initial={{
-            clientId: commande.client_id,
-            priorite: commande.priorite,
+            enseigne: commande.enseigne,
+            categorie: commande.categorie,
             methodePaiement: commande.methode_paiement,
+            numeroCommande: commande.numero_commande,
+            numeroSuivi: commande.numero_suivi,
+            lienSuivi: commande.lien_suivi,
+            dateCommande: commande.date_commande,
             notes: commande.notes,
             items: commande.items.map((i) => ({
               designation: i.designation,

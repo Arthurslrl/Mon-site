@@ -1,5 +1,5 @@
 import { getDb } from "@/lib/db";
-import type { MethodePaiement, Priorite, Statut } from "@/lib/types";
+import type { Categorie, MethodePaiement, Statut } from "@/lib/types";
 import type Database from "better-sqlite3";
 
 export interface CommandeItemInput {
@@ -15,18 +15,21 @@ export interface CommandeItem extends CommandeItemInput {
 
 export interface Commande {
   id: number;
-  client_id: number;
   reference: string;
+  enseigne: string;
+  categorie: Categorie | null;
   statut: Statut;
-  priorite: Priorite;
   methode_paiement: MethodePaiement;
+  numero_commande: string | null;
+  numero_suivi: string | null;
+  lien_suivi: string | null;
+  date_commande: string;
   notes: string | null;
   created_at: string;
   updated_at: string;
 }
 
-export interface CommandeWithClient extends Commande {
-  client_nom: string;
+export interface CommandeWithTotal extends Commande {
   total: number;
 }
 
@@ -39,7 +42,6 @@ export interface HistoriqueEntry {
 }
 
 export interface CommandeDetail extends Commande {
-  client_nom: string;
   items: CommandeItem[];
   historique: HistoriqueEntry[];
   total: number;
@@ -47,7 +49,8 @@ export interface CommandeDetail extends Commande {
 
 export interface CommandeFilters {
   statut?: string;
-  clientId?: number;
+  enseigne?: string;
+  categorie?: string;
   methodePaiement?: string;
   search?: string;
   dateFrom?: string;
@@ -78,26 +81,30 @@ function buildWhere(filters: CommandeFilters) {
     clauses.push("c.statut = ?");
     params.push(filters.statut);
   }
-  if (filters.clientId) {
-    clauses.push("c.client_id = ?");
-    params.push(filters.clientId);
+  if (filters.enseigne) {
+    clauses.push("c.enseigne = ?");
+    params.push(filters.enseigne);
+  }
+  if (filters.categorie) {
+    clauses.push("c.categorie = ?");
+    params.push(filters.categorie);
   }
   if (filters.methodePaiement) {
     clauses.push("c.methode_paiement = ?");
     params.push(filters.methodePaiement);
   }
   if (filters.dateFrom) {
-    clauses.push("date(c.created_at) >= date(?)");
+    clauses.push("date(c.date_commande) >= date(?)");
     params.push(filters.dateFrom);
   }
   if (filters.dateTo) {
-    clauses.push("date(c.created_at) <= date(?)");
+    clauses.push("date(c.date_commande) <= date(?)");
     params.push(filters.dateTo);
   }
   if (filters.search) {
-    clauses.push("(c.reference LIKE ? OR cl.nom LIKE ?)");
+    clauses.push("(c.reference LIKE ? OR c.enseigne LIKE ? OR c.numero_commande LIKE ?)");
     const like = `%${filters.search}%`;
-    params.push(like, like);
+    params.push(like, like, like);
   }
 
   return {
@@ -107,23 +114,21 @@ function buildWhere(filters: CommandeFilters) {
 }
 
 const SORT_MAP: Record<string, string> = {
-  date_desc: "c.created_at DESC",
-  date_asc: "c.created_at ASC",
+  date_desc: "c.date_commande DESC, c.id DESC",
+  date_asc: "c.date_commande ASC, c.id ASC",
   total_desc: "total DESC",
   total_asc: "total ASC",
 };
 
 export function listCommandes(
   filters: CommandeFilters = {}
-): { rows: CommandeWithClient[]; total: number } {
+): { rows: CommandeWithTotal[]; total: number } {
   const db = getDb();
   const { where, params } = buildWhere(filters);
   const orderBy = SORT_MAP[filters.sort ?? "date_desc"] ?? SORT_MAP.date_desc;
 
   const { n: total } = db
-    .prepare(
-      `SELECT COUNT(*) as n FROM commandes c JOIN clients cl ON cl.id = c.client_id ${where}`
-    )
+    .prepare(`SELECT COUNT(*) as n FROM commandes c ${where}`)
     .get(...params) as { n: number };
 
   const pageSize = filters.pageSize ?? 25;
@@ -132,26 +137,23 @@ export function listCommandes(
 
   const rows = db
     .prepare(
-      `SELECT c.*, cl.nom as client_nom,
+      `SELECT c.*,
         COALESCE((SELECT SUM(quantite * prix_unitaire) FROM commande_items WHERE commande_id = c.id), 0) as total
        FROM commandes c
-       JOIN clients cl ON cl.id = c.client_id
        ${where}
        ORDER BY ${orderBy}
        LIMIT ? OFFSET ?`
     )
-    .all(...params, pageSize, offset) as CommandeWithClient[];
+    .all(...params, pageSize, offset) as CommandeWithTotal[];
 
   return { rows, total };
 }
 
 export function getCommande(id: number): CommandeDetail | undefined {
   const db = getDb();
-  const commande = db
-    .prepare(
-      `SELECT c.*, cl.nom as client_nom FROM commandes c JOIN clients cl ON cl.id = c.client_id WHERE c.id = ?`
-    )
-    .get(id) as (Commande & { client_nom: string }) | undefined;
+  const commande = db.prepare(`SELECT * FROM commandes WHERE id = ?`).get(id) as
+    | Commande
+    | undefined;
   if (!commande) return undefined;
 
   const items = db
@@ -165,15 +167,22 @@ export function getCommande(id: number): CommandeDetail | undefined {
   return { ...commande, items, historique, total };
 }
 
-export function listCommandesForClient(clientId: number): CommandeWithClient[] {
-  return listCommandes({ clientId, pageSize: 1000, sort: "date_desc" }).rows;
+export function listDistinctEnseignes(): string[] {
+  const rows = getDb()
+    .prepare(`SELECT DISTINCT enseigne FROM commandes ORDER BY enseigne COLLATE NOCASE`)
+    .all() as { enseigne: string }[];
+  return rows.map((r) => r.enseigne);
 }
 
 export function createCommande(input: {
-  clientId: number;
+  enseigne: string;
+  categorie?: Categorie | null;
   statut: Statut;
-  priorite: Priorite;
   methodePaiement: MethodePaiement;
+  numeroCommande?: string | null;
+  numeroSuivi?: string | null;
+  lienSuivi?: string | null;
+  dateCommande: string;
   notes?: string | null;
   items: CommandeItemInput[];
 }): number {
@@ -182,15 +191,20 @@ export function createCommande(input: {
     const reference = generateReference(db);
     const result = db
       .prepare(
-        `INSERT INTO commandes (client_id, reference, statut, priorite, methode_paiement, notes)
-         VALUES (?, ?, ?, ?, ?, ?)`
+        `INSERT INTO commandes
+          (reference, enseigne, categorie, statut, methode_paiement, numero_commande, numero_suivi, lien_suivi, date_commande, notes)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
       )
       .run(
-        input.clientId,
         reference,
+        input.enseigne,
+        input.categorie ?? null,
         input.statut,
-        input.priorite,
         input.methodePaiement,
+        input.numeroCommande ?? null,
+        input.numeroSuivi ?? null,
+        input.lienSuivi ?? null,
+        input.dateCommande,
         input.notes ?? null
       );
     const commandeId = Number(result.lastInsertRowid);
@@ -214,9 +228,13 @@ export function createCommande(input: {
 export function updateCommande(
   id: number,
   input: {
-    clientId: number;
-    priorite: Priorite;
+    enseigne: string;
+    categorie?: Categorie | null;
     methodePaiement: MethodePaiement;
+    numeroCommande?: string | null;
+    numeroSuivi?: string | null;
+    lienSuivi?: string | null;
+    dateCommande: string;
     notes?: string | null;
     items: CommandeItemInput[];
   }
@@ -224,9 +242,20 @@ export function updateCommande(
   const db = getDb();
   const tx = db.transaction(() => {
     db.prepare(
-      `UPDATE commandes SET client_id = ?, priorite = ?, methode_paiement = ?, notes = ?, updated_at = datetime('now')
+      `UPDATE commandes SET enseigne = ?, categorie = ?, methode_paiement = ?, numero_commande = ?,
+        numero_suivi = ?, lien_suivi = ?, date_commande = ?, notes = ?, updated_at = datetime('now')
        WHERE id = ?`
-    ).run(input.clientId, input.priorite, input.methodePaiement, input.notes ?? null, id);
+    ).run(
+      input.enseigne,
+      input.categorie ?? null,
+      input.methodePaiement,
+      input.numeroCommande ?? null,
+      input.numeroSuivi ?? null,
+      input.lienSuivi ?? null,
+      input.dateCommande,
+      input.notes ?? null,
+      id
+    );
 
     db.prepare(`DELETE FROM commande_items WHERE commande_id = ?`).run(id);
     const insertItem = db.prepare(
@@ -258,23 +287,23 @@ export function deleteCommande(id: number): void {
 }
 
 export interface DashboardStats {
-  totalCA: number;
-  nbClients: number;
+  totalDepense: number;
   nbCommandes: number;
   parStatut: { statut: string; n: number }[];
-  topClients: { id: number; nom: string; nb_commandes: number; total: number }[];
-  recentCommandes: CommandeWithClient[];
+  topEnseignes: { enseigne: string; nb_commandes: number; total: number }[];
+  parCategorie: { categorie: string | null; total: number }[];
+  recentCommandes: CommandeWithTotal[];
 }
 
 export function getStats(): DashboardStats {
   const db = getDb();
 
-  const { total: totalCA } = db
+  const { total: totalDepense } = db
     .prepare(
       `SELECT COALESCE(SUM(i.quantite * i.prix_unitaire), 0) as total
        FROM commande_items i
        JOIN commandes c ON c.id = i.commande_id
-       WHERE c.statut != 'annulee'`
+       WHERE c.statut NOT IN ('annulee', 'remboursee')`
     )
     .get() as { total: number };
 
@@ -282,25 +311,35 @@ export function getStats(): DashboardStats {
     .prepare(`SELECT statut, COUNT(*) as n FROM commandes GROUP BY statut`)
     .all() as { statut: string; n: number }[];
 
-  const { n: nbClients } = db.prepare(`SELECT COUNT(*) as n FROM clients`).get() as { n: number };
   const { n: nbCommandes } = db.prepare(`SELECT COUNT(*) as n FROM commandes`).get() as {
     n: number;
   };
 
-  const topClients = db
+  const topEnseignes = db
     .prepare(
-      `SELECT cl.id, cl.nom, COUNT(DISTINCT c.id) as nb_commandes,
+      `SELECT c.enseigne, COUNT(DISTINCT c.id) as nb_commandes,
         COALESCE(SUM(i.quantite * i.prix_unitaire), 0) as total
-       FROM clients cl
-       JOIN commandes c ON c.client_id = cl.id
+       FROM commandes c
        LEFT JOIN commande_items i ON i.commande_id = c.id
-       GROUP BY cl.id
+       GROUP BY c.enseigne
        ORDER BY total DESC
        LIMIT 5`
     )
-    .all() as { id: number; nom: string; nb_commandes: number; total: number }[];
+    .all() as { enseigne: string; nb_commandes: number; total: number }[];
+
+  const parCategorie = db
+    .prepare(
+      `SELECT c.categorie,
+        COALESCE(SUM(i.quantite * i.prix_unitaire), 0) as total
+       FROM commandes c
+       LEFT JOIN commande_items i ON i.commande_id = c.id
+       WHERE c.statut NOT IN ('annulee', 'remboursee')
+       GROUP BY c.categorie
+       ORDER BY total DESC`
+    )
+    .all() as { categorie: string | null; total: number }[];
 
   const recentCommandes = listCommandes({ sort: "date_desc", pageSize: 5 }).rows;
 
-  return { totalCA, nbClients, nbCommandes, parStatut, topClients, recentCommandes };
+  return { totalDepense, nbCommandes, parStatut, topEnseignes, parCategorie, recentCommandes };
 }

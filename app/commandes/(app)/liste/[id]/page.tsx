@@ -1,13 +1,20 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getCommande } from "@/lib/repo/commandes";
-import { STATUTS, methodePaiementLabel } from "@/lib/types";
+import { STATUTS, categorieLabel, methodePaiementLabel } from "@/lib/types";
 import StatutBadge from "@/components/commandes/StatutBadge";
-import PrioriteBadge from "@/components/commandes/PrioriteBadge";
 import { changeStatutAction, deleteCommandeAction } from "../../../actions";
 
 function formatEuros(value: number): string {
   return value.toLocaleString("fr-FR", { style: "currency", currency: "EUR" });
+}
+
+function formatDate(value: string): string {
+  return new Date(`${value}T00:00:00Z`).toLocaleDateString("fr-FR", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  });
 }
 
 function formatDateTime(value: string): string {
@@ -35,10 +42,7 @@ export default async function CommandeDetailPage({
         <div>
           <h1 className="text-2xl font-bold text-slate-900">{commande.reference}</h1>
           <p className="mt-1 text-sm text-slate-500">
-            Client :{" "}
-            <Link href={`/commandes/clients/${commande.client_id}`} className="font-medium text-indigo-600 hover:text-indigo-700">
-              {commande.client_nom}
-            </Link>
+            {commande.enseigne} · Achetée le {formatDate(commande.date_commande)}
           </p>
         </div>
         <div className="flex gap-2">
@@ -67,10 +71,8 @@ export default async function CommandeDetailPage({
           </div>
         </div>
         <div className="rounded-2xl border border-slate-200 bg-white p-5">
-          <p className="text-sm text-slate-500">Priorité</p>
-          <div className="mt-2">
-            <PrioriteBadge priorite={commande.priorite} />
-          </div>
+          <p className="text-sm text-slate-500">Catégorie</p>
+          <p className="mt-2 font-medium text-slate-900">{categorieLabel(commande.categorie)}</p>
         </div>
         <div className="rounded-2xl border border-slate-200 bg-white p-5">
           <p className="text-sm text-slate-500">Paiement</p>
@@ -83,6 +85,36 @@ export default async function CommandeDetailPage({
           <p className="mt-2 font-bold text-slate-900">{formatEuros(commande.total)}</p>
         </div>
       </div>
+
+      {(commande.numero_commande || commande.numero_suivi || commande.lien_suivi) && (
+        <div className="grid gap-4 sm:grid-cols-3">
+          {commande.numero_commande ? (
+            <div className="rounded-2xl border border-slate-200 bg-white p-5">
+              <p className="text-sm text-slate-500">N° de commande</p>
+              <p className="mt-1 font-medium text-slate-900">{commande.numero_commande}</p>
+            </div>
+          ) : null}
+          {commande.numero_suivi ? (
+            <div className="rounded-2xl border border-slate-200 bg-white p-5">
+              <p className="text-sm text-slate-500">N° de suivi</p>
+              <p className="mt-1 font-medium text-slate-900">{commande.numero_suivi}</p>
+            </div>
+          ) : null}
+          {commande.lien_suivi ? (
+            <div className="rounded-2xl border border-slate-200 bg-white p-5">
+              <p className="text-sm text-slate-500">Suivi du colis</p>
+              <a
+                href={commande.lien_suivi}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-1 inline-block font-medium text-indigo-600 hover:text-indigo-700"
+              >
+                Suivre le colis →
+              </a>
+            </div>
+          ) : null}
+        </div>
+      )}
 
       <div className="rounded-2xl border border-slate-200 bg-white p-5">
         <h2 className="text-sm font-semibold text-slate-900">Articles</h2>

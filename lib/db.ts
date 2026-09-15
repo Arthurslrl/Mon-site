@@ -30,23 +30,17 @@ function initSchema(db: Database.Database) {
   db.pragma("foreign_keys = ON");
 
   db.exec(`
-    CREATE TABLE IF NOT EXISTS clients (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      nom TEXT NOT NULL,
-      email TEXT,
-      telephone TEXT,
-      adresse TEXT,
-      notes TEXT,
-      created_at TEXT NOT NULL DEFAULT (datetime('now'))
-    );
-
     CREATE TABLE IF NOT EXISTS commandes (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      client_id INTEGER NOT NULL REFERENCES clients(id) ON DELETE CASCADE,
       reference TEXT NOT NULL UNIQUE,
-      statut TEXT NOT NULL DEFAULT 'en_attente',
-      priorite TEXT NOT NULL DEFAULT 'normale',
+      enseigne TEXT NOT NULL,
+      categorie TEXT,
+      statut TEXT NOT NULL DEFAULT 'commandee',
       methode_paiement TEXT NOT NULL DEFAULT 'carte',
+      numero_commande TEXT,
+      numero_suivi TEXT,
+      lien_suivi TEXT,
+      date_commande TEXT NOT NULL DEFAULT (date('now')),
       notes TEXT,
       created_at TEXT NOT NULL DEFAULT (datetime('now')),
       updated_at TEXT NOT NULL DEFAULT (datetime('now'))
@@ -74,8 +68,9 @@ function initSchema(db: Database.Database) {
       password_hash TEXT NOT NULL
     );
 
-    CREATE INDEX IF NOT EXISTS idx_commandes_client ON commandes(client_id);
     CREATE INDEX IF NOT EXISTS idx_commandes_statut ON commandes(statut);
+    CREATE INDEX IF NOT EXISTS idx_commandes_enseigne ON commandes(enseigne);
+    CREATE INDEX IF NOT EXISTS idx_commandes_date ON commandes(date_commande);
     CREATE INDEX IF NOT EXISTS idx_items_commande ON commande_items(commande_id);
     CREATE INDEX IF NOT EXISTS idx_historique_commande ON commande_historique(commande_id);
   `);

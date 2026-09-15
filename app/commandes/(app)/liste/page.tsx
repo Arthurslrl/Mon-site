@@ -1,16 +1,14 @@
 import Link from "next/link";
-import { listCommandes } from "@/lib/repo/commandes";
-import { listClients } from "@/lib/repo/clients";
-import { METHODES_PAIEMENT, STATUTS } from "@/lib/types";
+import { listCommandes, listDistinctEnseignes } from "@/lib/repo/commandes";
+import { CATEGORIES, STATUTS, categorieLabel } from "@/lib/types";
 import StatutBadge from "@/components/commandes/StatutBadge";
-import PrioriteBadge from "@/components/commandes/PrioriteBadge";
 
 function formatEuros(value: number): string {
   return value.toLocaleString("fr-FR", { style: "currency", currency: "EUR" });
 }
 
 function formatDate(value: string): string {
-  return new Date(value.replace(" ", "T") + "Z").toLocaleDateString("fr-FR", {
+  return new Date(`${value}T00:00:00Z`).toLocaleDateString("fr-FR", {
     day: "2-digit",
     month: "2-digit",
     year: "numeric",
@@ -21,8 +19,8 @@ const PAGE_SIZE = 25;
 
 type SearchParams = {
   statut?: string;
-  clientId?: string;
-  methodePaiement?: string;
+  enseigne?: string;
+  categorie?: string;
   q?: string;
   from?: string;
   to?: string;
@@ -40,8 +38,8 @@ export default async function ListeCommandesPage({
 
   const filters = {
     statut: sp.statut || undefined,
-    clientId: sp.clientId ? Number(sp.clientId) : undefined,
-    methodePaiement: sp.methodePaiement || undefined,
+    enseigne: sp.enseigne || undefined,
+    categorie: sp.categorie || undefined,
     search: sp.q || undefined,
     dateFrom: sp.from || undefined,
     dateTo: sp.to || undefined,
@@ -51,13 +49,13 @@ export default async function ListeCommandesPage({
   };
 
   const { rows, total } = listCommandes(filters);
-  const clients = listClients();
+  const enseignes = listDistinctEnseignes();
   const totalPages = Math.max(1, Math.ceil(total / PAGE_SIZE));
 
   const exportQuery = new URLSearchParams();
   if (filters.statut) exportQuery.set("statut", filters.statut);
-  if (filters.clientId) exportQuery.set("clientId", String(filters.clientId));
-  if (filters.methodePaiement) exportQuery.set("methodePaiement", filters.methodePaiement);
+  if (filters.enseigne) exportQuery.set("enseigne", filters.enseigne);
+  if (filters.categorie) exportQuery.set("categorie", filters.categorie);
   if (filters.search) exportQuery.set("q", filters.search);
   if (filters.dateFrom) exportQuery.set("from", filters.dateFrom);
   if (filters.dateTo) exportQuery.set("to", filters.dateTo);
@@ -66,7 +64,7 @@ export default async function ListeCommandesPage({
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900">Commandes</h1>
+          <h1 className="text-2xl font-bold text-slate-900">Mes commandes</h1>
           <p className="mt-1 text-sm text-slate-500">{total} commande(s)</p>
         </div>
         <div className="flex gap-2">
@@ -90,7 +88,7 @@ export default async function ListeCommandesPage({
           type="search"
           name="q"
           defaultValue={sp.q ?? ""}
-          placeholder="Référence ou client..."
+          placeholder="Référence, enseigne, n° commande..."
           className="rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none"
         />
         <select
@@ -106,26 +104,26 @@ export default async function ListeCommandesPage({
           ))}
         </select>
         <select
-          name="clientId"
-          defaultValue={sp.clientId ?? ""}
+          name="enseigne"
+          defaultValue={sp.enseigne ?? ""}
           className="rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none"
         >
-          <option value="">Tous les clients</option>
-          {clients.map((c) => (
-            <option key={c.id} value={c.id}>
-              {c.nom}
+          <option value="">Toutes les enseignes</option>
+          {enseignes.map((e) => (
+            <option key={e} value={e}>
+              {e}
             </option>
           ))}
         </select>
         <select
-          name="methodePaiement"
-          defaultValue={sp.methodePaiement ?? ""}
+          name="categorie"
+          defaultValue={sp.categorie ?? ""}
           className="rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none"
         >
-          <option value="">Tous les paiements</option>
-          {METHODES_PAIEMENT.map((m) => (
-            <option key={m.value} value={m.value}>
-              {m.label}
+          <option value="">Toutes les catégories</option>
+          {CATEGORIES.map((c) => (
+            <option key={c.value} value={c.value}>
+              {c.label}
             </option>
           ))}
         </select>
@@ -178,18 +176,17 @@ export default async function ListeCommandesPage({
           <thead className="border-b border-slate-200 text-slate-500">
             <tr>
               <th className="px-4 py-3 font-medium">Référence</th>
-              <th className="px-4 py-3 font-medium">Client</th>
+              <th className="px-4 py-3 font-medium">Enseigne</th>
+              <th className="px-4 py-3 font-medium">Catégorie</th>
               <th className="px-4 py-3 font-medium">Statut</th>
-              <th className="px-4 py-3 font-medium">Priorité</th>
-              <th className="px-4 py-3 font-medium">Paiement</th>
-              <th className="px-4 py-3 font-medium">Date</th>
+              <th className="px-4 py-3 font-medium">Date d&apos;achat</th>
               <th className="px-4 py-3 text-right font-medium">Total</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
             {rows.length === 0 ? (
               <tr>
-                <td colSpan={7} className="px-4 py-6 text-center text-slate-400">
+                <td colSpan={6} className="px-4 py-6 text-center text-slate-400">
                   Aucune commande ne correspond aux filtres.
                 </td>
               </tr>
@@ -204,19 +201,12 @@ export default async function ListeCommandesPage({
                       {c.reference}
                     </Link>
                   </td>
-                  <td className="px-4 py-3">
-                    <Link href={`/commandes/clients/${c.client_id}`} className="hover:text-indigo-600">
-                      {c.client_nom}
-                    </Link>
-                  </td>
+                  <td className="px-4 py-3 font-medium text-slate-800">{c.enseigne}</td>
+                  <td className="px-4 py-3 text-slate-500">{categorieLabel(c.categorie)}</td>
                   <td className="px-4 py-3">
                     <StatutBadge statut={c.statut} />
                   </td>
-                  <td className="px-4 py-3">
-                    <PrioriteBadge priorite={c.priorite} />
-                  </td>
-                  <td className="px-4 py-3 text-slate-500">{c.methode_paiement}</td>
-                  <td className="px-4 py-3 text-slate-500">{formatDate(c.created_at)}</td>
+                  <td className="px-4 py-3 text-slate-500">{formatDate(c.date_commande)}</td>
                   <td className="px-4 py-3 text-right font-medium">{formatEuros(c.total)}</td>
                 </tr>
               ))

@@ -17,11 +17,11 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             <Link href="/commandes" className="hover:text-slate-900">
               Tableau de bord
             </Link>
-            <Link href="/commandes/clients" className="hover:text-slate-900">
-              Clients
-            </Link>
             <Link href="/commandes/liste" className="hover:text-slate-900">
               Commandes
+            </Link>
+            <Link href="/commandes/import" className="hover:text-slate-900">
+              Importer
             </Link>
             <form action={logoutAction}>
               <button

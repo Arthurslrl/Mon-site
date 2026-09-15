@@ -16,19 +16,21 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 - `/` — Pizzeria Loulou (Valras-Plage)
 - `/flow` — Flow SaaS landing page
-- `/commandes` — Centrale Commandes : back-office de centralisation des commandes clients (voir ci-dessous)
+- `/commandes` — Centrale Commandes : suivi centralisé de tes commandes en ligne (voir ci-dessous)
 
 ## Centrale Commandes (`/commandes`)
 
-Back-office protégé par mot de passe permettant de regrouper tous les clients et
-toutes leurs commandes au même endroit :
+Application personnelle protégée par mot de passe permettant de centraliser
+toutes tes commandes passées en ligne, chez n'importe quelle enseigne (Amazon,
+Zara, Fnac, Leboncoin, etc.) :
 
-- Tableau de bord (chiffre d'affaires, répartition par statut, top clients)
-- Fiches clients avec historique centralisé de toutes leurs commandes
-- Commandes avec articles multiples, statut, priorité, méthode de paiement,
-  notes et historique des changements de statut
-- Recherche, filtres (statut, client, paiement, période) et tri
-- Export CSV des commandes filtrées
+- Tableau de bord (total dépensé, répartition par statut, top enseignes,
+  dépenses par catégorie)
+- Commandes avec articles multiples, enseigne, catégorie, méthode de
+  paiement, n° de commande, n° et lien de suivi colis, notes, et historique
+  des changements de statut (commandée → expédiée → livrée → retournée...)
+- Recherche, filtres (statut, enseigne, catégorie, période) et tri
+- Import en masse depuis un CSV collé, et export CSV des commandes filtrées
 
 ### Configuration
 
@@ -39,7 +41,7 @@ toutes leurs commandes au même endroit :
      session (ex : `openssl rand -hex 32`).
 2. `npm run dev` puis va sur `/commandes` pour te connecter.
 
-Les données (clients, commandes) sont stockées dans une base SQLite locale
+Les données (commandes) sont stockées dans une base SQLite locale
 (`data/commandes.sqlite3`, ignorée par git). Pour changer le mot de passe
 admin après le premier démarrage, supprime ce fichier et relance le serveur
 (ou modifie directement la ligne dans la table `admin_users`).

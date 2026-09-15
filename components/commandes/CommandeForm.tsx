@@ -1,8 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { METHODES_PAIEMENT, PRIORITES, STATUTS } from "@/lib/types";
-import type { Client } from "@/lib/repo/clients";
+import { CATEGORIES, ENSEIGNES_SUGGEREES, METHODES_PAIEMENT, STATUTS } from "@/lib/types";
 
 interface ItemRow {
   designation: string;
@@ -11,22 +10,30 @@ interface ItemRow {
 }
 
 export interface CommandeFormInitial {
-  clientId?: number;
+  enseigne?: string;
+  categorie?: string | null;
   statut?: string;
-  priorite?: string;
   methodePaiement?: string;
+  numeroCommande?: string | null;
+  numeroSuivi?: string | null;
+  lienSuivi?: string | null;
+  dateCommande?: string;
   notes?: string | null;
   items?: ItemRow[];
 }
 
+function today(): string {
+  return new Date().toISOString().slice(0, 10);
+}
+
 export default function CommandeForm({
-  clients,
+  enseignesConnues,
   action,
   initial,
   submitLabel,
   showStatut = false,
 }: {
-  clients: Client[];
+  enseignesConnues: string[];
   action: (formData: FormData) => void | Promise<void>;
   initial?: CommandeFormInitial;
   submitLabel: string;
@@ -37,6 +44,9 @@ export default function CommandeForm({
   );
 
   const total = items.reduce((sum, item) => sum + item.quantite * item.prixUnitaire, 0);
+  const suggestions = Array.from(new Set([...enseignesConnues, ...ENSEIGNES_SUGGEREES])).sort(
+    (a, b) => a.localeCompare(b)
+  );
 
   function updateItem(index: number, patch: Partial<ItemRow>) {
     setItems((prev) => prev.map((it, i) => (i === index ? { ...it, ...patch } : it)));
@@ -54,19 +64,33 @@ export default function CommandeForm({
     <form action={action} className="space-y-6">
       <div className="grid gap-4 sm:grid-cols-2">
         <label className="block">
-          <span className="text-sm font-medium text-slate-700">Client *</span>
-          <select
-            name="clientId"
+          <span className="text-sm font-medium text-slate-700">Enseigne *</span>
+          <input
+            name="enseigne"
             required
-            defaultValue={initial?.clientId ?? ""}
+            list="enseignes-suggestions"
+            defaultValue={initial?.enseigne ?? ""}
+            placeholder="Zara, Amazon, Leboncoin..."
+            className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none"
+          />
+          <datalist id="enseignes-suggestions">
+            {suggestions.map((s) => (
+              <option key={s} value={s} />
+            ))}
+          </datalist>
+        </label>
+
+        <label className="block">
+          <span className="text-sm font-medium text-slate-700">Catégorie</span>
+          <select
+            name="categorie"
+            defaultValue={initial?.categorie ?? ""}
             className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none"
           >
-            <option value="" disabled>
-              Choisir un client
-            </option>
-            {clients.map((c) => (
-              <option key={c.id} value={c.id}>
-                {c.nom}
+            <option value="">Non catégorisé</option>
+            {CATEGORIES.map((c) => (
+              <option key={c.value} value={c.value}>
+                {c.label}
               </option>
             ))}
           </select>
@@ -77,7 +101,7 @@ export default function CommandeForm({
             <span className="text-sm font-medium text-slate-700">Statut initial</span>
             <select
               name="statut"
-              defaultValue={initial?.statut ?? "en_attente"}
+              defaultValue={initial?.statut ?? "commandee"}
               className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none"
             >
               {STATUTS.map((s) => (
@@ -90,18 +114,14 @@ export default function CommandeForm({
         ) : null}
 
         <label className="block">
-          <span className="text-sm font-medium text-slate-700">Priorité</span>
-          <select
-            name="priorite"
-            defaultValue={initial?.priorite ?? "normale"}
+          <span className="text-sm font-medium text-slate-700">Date d&apos;achat *</span>
+          <input
+            type="date"
+            name="dateCommande"
+            required
+            defaultValue={initial?.dateCommande ?? today()}
             className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none"
-          >
-            {PRIORITES.map((p) => (
-              <option key={p.value} value={p.value}>
-                {p.label}
-              </option>
-            ))}
-          </select>
+          />
         </label>
 
         <label className="block">
@@ -117,6 +137,36 @@ export default function CommandeForm({
               </option>
             ))}
           </select>
+        </label>
+
+        <label className="block">
+          <span className="text-sm font-medium text-slate-700">N° de commande</span>
+          <input
+            name="numeroCommande"
+            defaultValue={initial?.numeroCommande ?? ""}
+            placeholder="Numéro donné par le site"
+            className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none"
+          />
+        </label>
+
+        <label className="block">
+          <span className="text-sm font-medium text-slate-700">N° de suivi</span>
+          <input
+            name="numeroSuivi"
+            defaultValue={initial?.numeroSuivi ?? ""}
+            className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none"
+          />
+        </label>
+
+        <label className="block">
+          <span className="text-sm font-medium text-slate-700">Lien de suivi</span>
+          <input
+            type="url"
+            name="lienSuivi"
+            defaultValue={initial?.lienSuivi ?? ""}
+            placeholder="https://..."
+            className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none"
+          />
         </label>
       </div>
 
@@ -138,7 +188,7 @@ export default function CommandeForm({
                 name="designation"
                 value={item.designation}
                 onChange={(e) => updateItem(index, { designation: e.target.value })}
-                placeholder="Désignation"
+                placeholder="Désignation (ex : Jean slim)"
                 required
                 className="rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-indigo-500 focus:outline-none"
               />
