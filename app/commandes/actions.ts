@@ -1,16 +1,8 @@
 "use server";
 
-import bcrypt from "bcryptjs";
-import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
-import { getDb } from "@/lib/db";
-import {
-  SESSION_COOKIE_NAME,
-  SESSION_MAX_AGE_SECONDS,
-  createSessionToken,
-} from "@/lib/auth/session";
 import * as commandesRepo from "@/lib/repo/commandes";
 import type { CommandeItemInput } from "@/lib/repo/commandes";
 import {
@@ -21,47 +13,6 @@ import {
   type MethodePaiement,
   type Statut,
 } from "@/lib/types";
-
-export interface LoginState {
-  error?: string;
-}
-
-export async function loginAction(_prev: LoginState, formData: FormData): Promise<LoginState> {
-  const email = String(formData.get("email") ?? "").trim().toLowerCase();
-  const password = String(formData.get("password") ?? "");
-  const next = String(formData.get("next") ?? "/commandes");
-
-  if (!email || !password) {
-    return { error: "Merci de renseigner ton email et ton mot de passe." };
-  }
-
-  const db = getDb();
-  const admin = db.prepare("SELECT * FROM admin_users WHERE email = ?").get(email) as
-    | { id: number; email: string; password_hash: string }
-    | undefined;
-
-  if (!admin || !bcrypt.compareSync(password, admin.password_hash)) {
-    return { error: "Identifiants incorrects." };
-  }
-
-  const token = createSessionToken(admin.email);
-  const cookieStore = await cookies();
-  cookieStore.set(SESSION_COOKIE_NAME, token, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "lax",
-    path: "/",
-    maxAge: SESSION_MAX_AGE_SECONDS,
-  });
-
-  redirect(next.startsWith("/commandes") ? next : "/commandes");
-}
-
-export async function logoutAction(): Promise<void> {
-  const cookieStore = await cookies();
-  cookieStore.delete(SESSION_COOKIE_NAME);
-  redirect("/commandes/login");
-}
 
 const optionalCategorie = z
   .union([z.enum(CATEGORIE_VALUES), z.literal("")])

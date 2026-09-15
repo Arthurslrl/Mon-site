@@ -3,7 +3,7 @@ import type { NextRequest } from "next/server";
 import { SESSION_COOKIE_NAME, verifySessionToken } from "@/lib/auth/session";
 
 export const config = {
-  matcher: ["/commandes/:path*"],
+  matcher: ["/commandes/:path*", "/negociateur/:path*"],
 };
 
 export function proxy(request: NextRequest) {

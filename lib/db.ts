@@ -68,11 +68,35 @@ function initSchema(db: Database.Database) {
       password_hash TEXT NOT NULL
     );
 
+    CREATE TABLE IF NOT EXISTS abonnements (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      nom TEXT NOT NULL,
+      categorie TEXT,
+      montant REAL NOT NULL,
+      frequence TEXT NOT NULL DEFAULT 'mensuel',
+      statut TEXT NOT NULL DEFAULT 'actif',
+      notes TEXT,
+      created_at TEXT NOT NULL DEFAULT (datetime('now')),
+      updated_at TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+
+    CREATE TABLE IF NOT EXISTS negociations (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      abonnement_id INTEGER NOT NULL REFERENCES abonnements(id) ON DELETE CASCADE,
+      statut TEXT NOT NULL,
+      ancien_montant REAL NOT NULL,
+      nouveau_montant REAL,
+      economie_mensuelle REAL NOT NULL DEFAULT 0,
+      transcript TEXT NOT NULL,
+      created_at TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+
     CREATE INDEX IF NOT EXISTS idx_commandes_statut ON commandes(statut);
     CREATE INDEX IF NOT EXISTS idx_commandes_enseigne ON commandes(enseigne);
     CREATE INDEX IF NOT EXISTS idx_commandes_date ON commandes(date_commande);
     CREATE INDEX IF NOT EXISTS idx_items_commande ON commande_items(commande_id);
     CREATE INDEX IF NOT EXISTS idx_historique_commande ON commande_historique(commande_id);
+    CREATE INDEX IF NOT EXISTS idx_negociations_abonnement ON negociations(abonnement_id);
   `);
 
   seedAdmin(db);
