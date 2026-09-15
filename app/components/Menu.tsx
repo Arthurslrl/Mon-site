@@ -3,24 +3,25 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-type Item = { name: string; desc: string; price: string; tag?: string };
-type Category = { id: string; label: string; items: Item[] };
+type Item = { name: string; desc: string; price: string; priceM?: string; tag?: string };
+type Category = { id: string; label: string; items: Item[]; sizeNote?: string };
 
 const categories: Category[] = [
   {
     id: 'pizzas',
     label: 'Nos Pizzas',
+    sizeNote: 'S = 26 cm · M = 30 cm — même pâte, même four à bois',
     items: [
-      { name: 'Margherita', desc: 'Sauce tomate, mozzarella fior di latte, basilic frais', price: '11€' },
-      { name: 'Reine', desc: 'Sauce tomate, mozzarella, jambon blanc, champignons de Paris', price: '13€' },
-      { name: 'La Loulou', desc: 'Sauce tomate, mozzarella, chorizo, poivrons grillés, olives, anchois', price: '15€', tag: 'Spécialité' },
-      { name: '4 Fromages', desc: 'Mozzarella, gorgonzola, comté, chèvre frais, miel de fleurs', price: '14€' },
-      { name: 'Royale Saumon', desc: 'Crème fraîche, mozzarella, saumon fumé, câpres, citron confit', price: '16€' },
-      { name: 'Paysanne', desc: 'Crème fraîche, mozzarella, lardons fumés, pommes de terre, romarin', price: '14€' },
-      { name: 'Végétarienne', desc: 'Sauce tomate, mozzarella, aubergines, courgettes, poivrons, roquette', price: '13€' },
+      { name: 'Margherita', desc: 'Sauce tomate, mozzarella fior di latte, basilic frais', price: '11€', priceM: '14€' },
+      { name: 'Reine', desc: 'Sauce tomate, mozzarella, jambon blanc, champignons de Paris', price: '13€', priceM: '16€' },
+      { name: 'La Loulou', desc: 'Sauce tomate, mozzarella, chorizo, poivrons grillés, olives, anchois', price: '15€', priceM: '18€', tag: 'Spécialité' },
+      { name: '4 Fromages', desc: 'Mozzarella, gorgonzola, comté, chèvre frais, miel de fleurs', price: '14€', priceM: '17€' },
+      { name: 'Royale Saumon', desc: 'Crème fraîche, mozzarella, saumon fumé, câpres, citron confit', price: '16€', priceM: '19€' },
+      { name: 'Paysanne', desc: 'Crème fraîche, mozzarella, lardons fumés, pommes de terre, romarin', price: '14€', priceM: '17€' },
+      { name: 'Végétarienne', desc: 'Sauce tomate, mozzarella, aubergines, courgettes, poivrons, roquette', price: '13€', priceM: '16€' },
       { name: 'Calzone', desc: 'Pizza pliée, mozzarella, jambon, champignons, sauce tomate maison', price: '14€' },
-      { name: 'Diavola', desc: 'Sauce tomate, mozzarella, salami piquant, piments frais, huile d\'olive', price: '13€' },
-      { name: 'Tartufo', desc: 'Crème de truffe, mozzarella, champignons shiitake, parmesan 24 mois', price: '18€', tag: 'Premium' },
+      { name: 'Diavola', desc: 'Sauce tomate, mozzarella, salami piquant, piments frais, huile d\'olive', price: '13€', priceM: '16€' },
+      { name: 'Tartufo', desc: 'Crème de truffe, mozzarella, champignons shiitake, parmesan 24 mois', price: '18€', priceM: '22€', tag: 'Premium' },
     ],
   },
   {
@@ -102,6 +103,15 @@ export default function Menu() {
           ))}
         </div>
 
+        {current.sizeNote && (
+          <p
+            className="text-center text-xs text-[#7C4A1E]/60 -mt-7 mb-7 tracking-wide"
+            style={{ fontFamily: 'var(--font-body)' }}
+          >
+            {current.sizeNote}
+          </p>
+        )}
+
         {/* Items grid */}
         <AnimatePresence mode="wait">
           <motion.div
@@ -151,12 +161,36 @@ export default function Menu() {
                     {item.desc}
                   </p>
                 </div>
-                <p
-                  className="font-semibold text-[#C41E1E] text-lg shrink-0 tabular-nums"
-                  style={{ fontFamily: 'var(--font-heading)' }}
-                >
-                  {item.price}
-                </p>
+                {item.priceM ? (
+                  <div className="flex items-center gap-2.5 shrink-0">
+                    <div className="text-right">
+                      <p className="text-[9px] text-[#7C4A1E]/55 uppercase tracking-wide leading-none mb-1">S · 26cm</p>
+                      <p
+                        className="font-semibold text-[#C41E1E] text-base tabular-nums leading-none"
+                        style={{ fontFamily: 'var(--font-heading)' }}
+                      >
+                        {item.price}
+                      </p>
+                    </div>
+                    <div className="w-px h-7 bg-[#C41E1E]/12" aria-hidden="true" />
+                    <div className="text-right">
+                      <p className="text-[9px] text-[#7C4A1E]/55 uppercase tracking-wide leading-none mb-1">M · 30cm</p>
+                      <p
+                        className="font-semibold text-[#C41E1E] text-base tabular-nums leading-none"
+                        style={{ fontFamily: 'var(--font-heading)' }}
+                      >
+                        {item.priceM}
+                      </p>
+                    </div>
+                  </div>
+                ) : (
+                  <p
+                    className="font-semibold text-[#C41E1E] text-lg shrink-0 tabular-nums"
+                    style={{ fontFamily: 'var(--font-heading)' }}
+                  >
+                    {item.price}
+                  </p>
+                )}
               </motion.article>
             ))}
           </motion.div>
