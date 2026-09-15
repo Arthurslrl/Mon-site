@@ -142,19 +142,12 @@ export default function About() {
               >
                 pizzas cuites au four à bois chaque année
               </p>
-              <div className="mt-5 flex items-center gap-2">
-                <div className="flex gap-0.5">
-                  {[...Array(5)].map((_, i) => (
-                    <svg key={i} viewBox="0 0 24 24" className="w-4 h-4 fill-[#C8960C]" aria-hidden="true">
-                      <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
-                    </svg>
-                  ))}
-                </div>
+              <div className="mt-5 pt-5 border-t border-white/15">
                 <span
                   className="text-white/70 text-sm"
                   style={{ fontFamily: 'var(--font-body)' }}
                 >
-                  4.5 / 5 · 382 avis Google
+                  Pâte pétrie, levée et étalée à la main, chaque jour.
                 </span>
               </div>
             </div>

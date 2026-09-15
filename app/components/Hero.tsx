@@ -42,7 +42,7 @@ const tags = ['Four à bois · 450°C', 'Pâtes maison', 'Ingrédients frais', '
 const stats = [
   { to: 40, suffix: '+', decimals: 0, label: "ans d'expérience" },
   { to: 30, suffix: '+', decimals: 0, label: 'pizzas artisanales' },
-  { to: 4.5, suffix: '★', decimals: 1, label: '382 avis Google' },
+  { to: 6, suffix: '/7', decimals: 0, label: 'jours ouverts' },
   { to: 450, suffix: '°', decimals: 0, label: 'cuisson au feu' },
 ];
 
